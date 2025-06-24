@@ -15,21 +15,26 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
         .container {
             background-color: #ffffff;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 900px;
+            max-width: 800px;
             width: 100%;
             margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 400px; /* Adjust as needed */
         }
         h1 {
             color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
-            font-size: 2.5em;
+            font-size: 2.2em;
         }
         .quiz-section {
             margin-bottom: 25px;
@@ -37,59 +42,85 @@
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             background-color: #fdfdfd;
+            flex-grow: 1; /* Allows the question section to expand */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertically center content if there's space */
         }
         .quiz-section h3 {
             color: #34495e;
             margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 1.3em;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            text-align: center;
         }
         .options label {
             display: block;
-            margin-bottom: 10px;
-            padding: 12px;
+            margin-bottom: 12px;
+            padding: 14px;
             background-color: #ebf5f0;
             border: 1px solid #d4e7da;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease, border-color 0.3s ease;
+            font-size: 1.05em;
         }
         .options label:hover {
             background-color: #dbebe3;
             border-color: #c3d7c9;
         }
         .options input[type="radio"] {
-            margin-right: 10px;
+            margin-right: 12px;
+            transform: scale(1.1); /* Slightly larger radio buttons */
         }
         .feedback {
-            margin-top: 10px;
+            margin-top: 15px;
             font-weight: bold;
-            text-align: right;
-            padding-right: 10px;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 5px;
+            font-size: 1.1em;
         }
         .feedback.correct {
             color: #27ae60;
+            background-color: #e6ffe6;
+            border: 1px solid #27ae60;
         }
         .feedback.incorrect {
             color: #e74c3c;
+            background-color: #ffe6e6;
+            border: 1px solid #e74c3c;
         }
-        .controls {
-            text-align: center;
-            margin-top: 30px;
+        .navigation-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            gap: 15px; /* Space between buttons */
         }
-        .controls button {
+        .navigation-controls button, .action-controls button {
             background-color: #3498db;
             color: white;
             padding: 12px 25px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1.1em;
+            font-size: 1.05em;
             transition: background-color 0.3s ease;
-            margin: 0 10px;
+            flex-grow: 1; /* Allow buttons to fill space */
         }
-        .controls button:hover {
+        .navigation-controls button:disabled, .action-controls button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .navigation-controls button:hover:not(:disabled), .action-controls button:hover:not(:disabled) {
             background-color: #2980b9;
+        }
+        .action-controls {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
         }
         .owner-info {
             margin-top: 40px;
@@ -103,16 +134,18 @@
     <div class="container">
         <h1>EduQuiz - Big Data HUBT (2TC) - Update</h1>
 
-        <div class="controls">
-            <button onclick="shuffleQuestions()">Đảo câu hỏi</button>
-            <button onclick="resetQuiz()">Làm lại</button>
+        <form id="quizForm">
+            <div id="questionContainer">
+                </div>
+        </form>
+
+        <div class="navigation-controls">
+            <button id="prevBtn" onclick="showPrevQuestion()" disabled>Câu trước</button>
+            <button id="nextBtn" onclick="showNextQuestion()">Câu tiếp theo</button>
         </div>
 
-        <form id="quizForm">
-            </form>
-
-        <div class="controls">
-            <button onclick="shuffleQuestions()">Đảo câu hỏi</button>
+        <div class="action-controls">
+            <button onclick="shuffleQuestionsAndReset()">Đảo câu hỏi</button>
             <button onclick="resetQuiz()">Làm lại</button>
         </div>
     </div>
@@ -866,6 +899,7 @@
         ];
 
         let currentQuizData = [];
+        let currentQuestionIndex = 0;
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -874,49 +908,54 @@
             }
         }
 
-        function loadQuiz() {
-            currentQuizData = [...quizData]; // Create a copy to shuffle
-            shuffleArray(currentQuizData);
+        function loadQuestion(index) {
+            const questionContainer = document.getElementById('questionContainer');
+            questionContainer.innerHTML = ''; // Clear previous question
 
-            const quizForm = document.getElementById('quizForm');
-            quizForm.innerHTML = ''; // Clear previous questions
+            const q = currentQuizData[index];
+            if (!q) {
+                questionContainer.innerHTML = '<p style="text-align: center; font-size: 1.2em; color: #555;">Bạn đã hoàn thành tất cả các câu hỏi!</p>';
+                document.getElementById('prevBtn').disabled = true;
+                document.getElementById('nextBtn').disabled = true;
+                return;
+            }
 
-            currentQuizData.forEach((q, index) => {
-                const questionDiv = document.createElement('div');
-                questionDiv.classList.add('quiz-section');
-                questionDiv.innerHTML = `<h3>Câu ${index + 1}: ${q.question}</h3>`;
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('quiz-section');
+            questionDiv.innerHTML = `<h3>Câu ${index + 1}/${currentQuizData.length}: ${q.question}</h3>`;
 
-                const optionsDiv = document.createElement('div');
-                optionsDiv.classList.add('options');
+            const optionsDiv = document.createElement('div');
+            optionsDiv.classList.add('options');
 
-                let shuffledOptions = [...q.options];
-                shuffleArray(shuffledOptions); // Shuffle options for each question
+            let shuffledOptions = [...q.options];
+            shuffleArray(shuffledOptions); // Shuffle options for each question
 
-                shuffledOptions.forEach((option, optionIndex) => {
-                    const label = document.createElement('label');
-                    label.innerHTML = `
-                        <input type="radio" name="question${index}" value="${option}" onchange="checkAnswer(${index}, this.value)">
-                        ${option}
-                    `;
-                    optionsDiv.appendChild(label);
-                });
-
-                const feedbackDiv = document.createElement('div');
-                feedbackDiv.classList.add('feedback');
-                feedbackDiv.id = `feedback${index}`;
-
-                questionDiv.appendChild(optionsDiv);
-                questionDiv.appendChild(feedbackDiv);
-                quizForm.appendChild(questionDiv);
+            shuffledOptions.forEach((option) => {
+                const label = document.createElement('label');
+                label.innerHTML = `
+                    <input type="radio" name="currentQuestion" value="${option}" onchange="checkAnswer(this.value)">
+                    ${option}
+                `;
+                optionsDiv.appendChild(label);
             });
+
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.classList.add('feedback');
+            feedbackDiv.id = `feedbackCurrent`;
+
+            questionDiv.appendChild(optionsDiv);
+            questionDiv.appendChild(feedbackDiv);
+            questionContainer.appendChild(questionDiv);
+
+            updateNavigationButtons();
         }
 
-        function checkAnswer(questionIndex, selectedValue) {
-            const questionData = currentQuizData[questionIndex];
-            const feedbackElement = document.getElementById(`feedback${questionIndex}`);
-            
+        function checkAnswer(selectedValue) {
+            const questionData = currentQuizData[currentQuestionIndex];
+            const feedbackElement = document.getElementById(`feedbackCurrent`);
+
             // Disable all radio buttons for this question after an answer is selected
-            const radios = document.getElementsByName(`question${questionIndex}`);
+            const radios = document.getElementsByName(`currentQuestion`);
             radios.forEach(radio => {
                 radio.disabled = true;
             });
@@ -932,18 +971,47 @@
             }
         }
 
-        function shuffleQuestions() {
-            loadQuiz();
-            window.scrollTo(0, 0); // Scroll to top after shuffling
+        function updateNavigationButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').disabled = currentQuestionIndex === currentQuizData.length - 1;
+        }
+
+        function showNextQuestion() {
+            if (currentQuestionIndex < currentQuizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function showPrevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function shuffleQuestionsAndReset() {
+            currentQuizData = [...quizData]; // Create a fresh copy
+            shuffleArray(currentQuizData);
+            currentQuestionIndex = 0;
+            loadQuestion(currentQuestionIndex);
+            window.scrollTo(0, 0);
         }
 
         function resetQuiz() {
-            loadQuiz();
-            window.scrollTo(0, 0); // Scroll to top after resetting
+            currentQuizData = [...quizData]; // Create a fresh copy (original order for full reset)
+            currentQuestionIndex = 0;
+            loadQuestion(currentQuestionIndex);
+            window.scrollTo(0, 0);
         }
 
-        // Load quiz when the page loads
-        document.addEventListener('DOMContentLoaded', loadQuiz);
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            currentQuizData = [...quizData]; // Initialize with a copy of original data
+            loadQuestion(currentQuestionIndex);
+        });
     </script>
 </body>
 </html>
