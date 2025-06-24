@@ -4,154 +4,300 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduQuiz - Big Data HUBT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --info-color: #f39c12;
+            --background-light: #f4f7f6;
+            --background-card: #ffffff;
+            --text-dark: #2c3e50;
+            --text-medium: #34495e;
+            --text-light: #7f8c8d;
+            --border-color: #e0e0e0;
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
+            background-color: var(--background-light);
+            color: var(--text-dark);
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            line-height: 1.6;
         }
+
         .container {
-            background-color: #ffffff;
+            background-color: var(--background-card);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-light);
+            max-width: 850px;
             width: 100%;
             margin-bottom: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            min-height: 400px; /* Adjust as needed */
+            min-height: 450px;
+            box-sizing: border-box;
+            position: relative;
         }
+
         h1 {
-            color: #2c3e50;
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-color);
             text-align: center;
             margin-bottom: 30px;
-            font-size: 2.2em;
+            font-size: 2.5em;
+            font-weight: 600;
         }
+
         .quiz-section {
             margin-bottom: 25px;
-            padding: 20px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
             background-color: #fdfdfd;
-            flex-grow: 1; /* Allows the question section to expand */
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Vertically center content if there's space */
+            justify-content: center;
+            transition: all 0.3s ease-in-out;
         }
+
         .quiz-section h3 {
-            color: #34495e;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-medium);
             margin-top: 0;
-            margin-bottom: 20px;
-            font-size: 1.2em;
+            margin-bottom: 25px;
+            font-size: 1.35em;
             text-align: center;
+            font-weight: 600;
         }
+
         .options label {
-            display: block;
-            margin-bottom: 12px;
-            padding: 14px;
-            background-color: #ebf5f0;
-            border: 1px solid #d4e7da;
-            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 16px 20px;
+            background-color: #ebf5f9; /* Lighter blue */
+            border: 1px solid #cce7f5; /* Lighter blue border */
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
             font-size: 1.05em;
+            position: relative;
         }
-        .options label:hover {
-            background-color: #dbebe3;
-            border-color: #c3d7c9;
+
+        .options label:hover:not(.disabled) {
+            background-color: #dbeaf0; /* Slightly darker on hover */
+            border-color: #b3d9ec;
+            transform: translateY(-2px);
         }
+
         .options input[type="radio"] {
-            margin-right: 12px;
-            transform: scale(1.1); /* Slightly larger radio buttons */
+            margin-right: 15px;
+            transform: scale(1.2);
+            accent-color: var(--primary-color); /* Custom accent color for radio button */
         }
+
+        .options label.correct-answer {
+            background-color: #e6ffe6; /* Light green */
+            border-color: var(--secondary-color);
+        }
+
+        .options label.incorrect-answer {
+            background-color: #ffe6e6; /* Light red */
+            border-color: var(--danger-color);
+        }
+
+        .options label.disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
         .feedback {
-            margin-top: 15px;
+            margin-top: 20px;
             font-weight: bold;
             text-align: center;
-            padding: 10px 0;
-            border-radius: 5px;
+            padding: 12px 15px;
+            border-radius: 8px;
             font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
+
         .feedback.correct {
-            color: #27ae60;
+            color: var(--secondary-color);
             background-color: #e6ffe6;
-            border: 1px solid #27ae60;
+            border: 1px solid var(--secondary-color);
         }
+
         .feedback.incorrect {
-            color: #e74c3c;
+            color: var(--danger-color);
             background-color: #ffe6e6;
-            border: 1px solid #e74c3c;
+            border: 1px solid var(--danger-color);
         }
+
         .navigation-controls {
             display: flex;
             justify-content: space-between;
             margin-top: 25px;
-            gap: 15px; /* Space between buttons */
+            gap: 20px;
         }
-        .navigation-controls button, .action-controls button {
-            background-color: #3498db;
+
+        .navigation-controls button, .action-controls button, #startQuizBtn, #viewResultsBtn {
+            background-color: var(--primary-color);
             color: white;
-            padding: 12px 25px;
+            padding: 14px 28px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1.05em;
-            transition: background-color 0.3s ease;
-            flex-grow: 1; /* Allow buttons to fill space */
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            flex-grow: 1;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
+
+        .navigation-controls button:hover:not(:disabled), .action-controls button:hover:not(:disabled), #startQuizBtn:hover, #viewResultsBtn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
         .navigation-controls button:disabled, .action-controls button:disabled {
             background-color: #cccccc;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
-        .navigation-controls button:hover:not(:disabled), .action-controls button:hover:not(:disabled) {
-            background-color: #2980b9;
-        }
+
         .action-controls {
             text-align: center;
             margin-top: 30px;
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
         }
+
         .owner-info {
             margin-top: 40px;
             text-align: center;
             font-size: 0.9em;
-            color: #7f8c8d;
+            color: var(--text-light);
+            padding: 10px;
+        }
+
+        .quiz-start-screen, .quiz-results-screen {
+            text-align: center;
+            padding: 50px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+        }
+
+        .quiz-start-screen h2, .quiz-results-screen h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        .quiz-start-screen p, .quiz-results-screen p {
+            font-size: 1.1em;
+            color: var(--text-medium);
+            margin-bottom: 30px;
+        }
+
+        #startQuizBtn, #viewResultsBtn {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            background-color: var(--secondary-color);
+        }
+        #startQuizBtn:hover, #viewResultsBtn:hover {
+            background-color: #27ae60;
+        }
+
+        .result-summary {
+            margin-top: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+        .result-summary p {
+            margin: 10px 0;
+        }
+        .result-summary .correct-count {
+            color: var(--secondary-color);
+        }
+        .result-summary .incorrect-count {
+            color: var(--danger-color);
+        }
+        .result-summary .total-count {
+            color: var(--primary-color);
+        }
+
+        .timer-display {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--info-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>EduQuiz - Big Data HUBT (2TC) - Update</h1>
+        <div id="quizContent">
+            <div class="quiz-start-screen" id="startScreen">
+                <h2>Chào mừng bạn đến với bài kiểm tra Big Data!</h2>
+                <p>Nhấn "Bắt đầu bài kiểm tra" để bắt đầu ôn luyện.</p>
+                <button id="startQuizBtn">Bắt đầu bài kiểm tra</button>
+            </div>
 
-        <form id="quizForm">
-            <div id="questionContainer">
+            <div id="questionArea" style="display: none;">
+                <div id="questionContainer">
+                    </div>
+                <div class="navigation-controls">
+                    <button id="prevBtn" onclick="showPrevQuestion()" disabled><i class="fas fa-arrow-left"></i> Câu trước</button>
+                    <button id="nextBtn" onclick="showNextQuestion()">Câu tiếp theo <i class="fas fa-arrow-right"></i></button>
                 </div>
-        </form>
+            </div>
 
-        <div class="navigation-controls">
-            <button id="prevBtn" onclick="showPrevQuestion()" disabled>Câu trước</button>
-            <button id="nextBtn" onclick="showNextQuestion()">Câu tiếp theo</button>
-        </div>
-
-        <div class="action-controls">
-            <button onclick="shuffleQuestionsAndReset()">Đảo câu hỏi</button>
-            <button onclick="resetQuiz()">Làm lại</button>
+            <div class="quiz-results-screen" id="resultsScreen" style="display: none;">
+                <h2>Kết quả bài kiểm tra</h2>
+                <div class="result-summary">
+                    <p>Tổng số câu hỏi: <span id="totalQuestionsResult" class="total-count"></span></p>
+                    <p>Số câu đúng: <span id="correctAnswersCount" class="correct-count"></span></p>
+                    <p>Số câu sai: <span id="incorrectAnswersCount" class="incorrect-count"></span></p>
+                </div>
+                <div class="action-controls" style="margin-top: 40px;">
+                    <button onclick="shuffleQuestionsAndReset()"><i class="fas fa-random"></i> Đảo câu hỏi</button>
+                    <button onclick="resetQuiz()"><i class="fas fa-redo-alt"></i> Làm lại bài kiểm tra</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="owner-info">
-        <p>Người sở hữu trang: Phan Minh Nam</p>
+        <p>&copy; 2024 EduQuiz. Người sở hữu trang: Phan Minh Nam</p>
     </div>
 
     <script>
@@ -900,7 +1046,11 @@
 
         let currentQuizData = [];
         let currentQuestionIndex = 0;
+        let userAnswers = {}; // To store user's answers and correctness
+        let autoAdvanceTimeout;
+        const AUTO_ADVANCE_DELAY = 3000; // 3 seconds delay
 
+        // Utility function to shuffle an array
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -908,15 +1058,16 @@
             }
         }
 
+        // Function to load and display a question
         function loadQuestion(index) {
+            clearTimeout(autoAdvanceTimeout); // Clear any pending auto-advance
+
             const questionContainer = document.getElementById('questionContainer');
-            questionContainer.innerHTML = ''; // Clear previous question
+            questionContainer.innerHTML = ''; // Clear previous question content
 
             const q = currentQuizData[index];
             if (!q) {
-                questionContainer.innerHTML = '<p style="text-align: center; font-size: 1.2em; color: #555;">Bạn đã hoàn thành tất cả các câu hỏi!</p>';
-                document.getElementById('prevBtn').disabled = true;
-                document.getElementById('nextBtn').disabled = true;
+                showResults();
                 return;
             }
 
@@ -928,12 +1079,12 @@
             optionsDiv.classList.add('options');
 
             let shuffledOptions = [...q.options];
-            shuffleArray(shuffledOptions); // Shuffle options for each question
+            shuffleArray(shuffledOptions); // Shuffle options for the current question
 
             shuffledOptions.forEach((option) => {
                 const label = document.createElement('label');
                 label.innerHTML = `
-                    <input type="radio" name="currentQuestion" value="${option}" onchange="checkAnswer(this.value)">
+                    <input type="radio" name="currentQuestion" value="${option}" onchange="handleAnswerSelection(this)">
                     ${option}
                 `;
                 optionsDiv.appendChild(label);
@@ -947,70 +1098,167 @@
             questionDiv.appendChild(feedbackDiv);
             questionContainer.appendChild(questionDiv);
 
+            // Re-select if user has already answered this question
+            if (userAnswers[index] && userAnswers[index].selectedAnswer) {
+                const radios = document.getElementsByName('currentQuestion');
+                radios.forEach(radio => {
+                    if (radio.value === userAnswers[index].selectedAnswer) {
+                        radio.checked = true;
+                    }
+                });
+                // Immediately check and display feedback if already answered
+                checkAnswer(userAnswers[index].selectedAnswer, true);
+            }
+
             updateNavigationButtons();
+            window.scrollTo(0, 0); // Scroll to top of the page
         }
 
-        function checkAnswer(selectedValue) {
+        // Handles user selecting an answer
+        function handleAnswerSelection(selectedRadio) {
+            const selectedValue = selectedRadio.value;
+            checkAnswer(selectedValue);
+
+            // Set timeout to auto-advance to next question
+            autoAdvanceTimeout = setTimeout(() => {
+                if (currentQuestionIndex < currentQuizData.length - 1) {
+                    showNextQuestion();
+                } else {
+                    showResults(); // If it's the last question, show results
+                }
+            }, AUTO_ADVANCE_DELAY);
+        }
+
+        // Checks the answer and updates UI
+        function checkAnswer(selectedValue, isRecheck = false) {
             const questionData = currentQuizData[currentQuestionIndex];
             const feedbackElement = document.getElementById(`feedbackCurrent`);
-
-            // Disable all radio buttons for this question after an answer is selected
             const radios = document.getElementsByName(`currentQuestion`);
+
+            // Disable all radio buttons
             radios.forEach(radio => {
                 radio.disabled = true;
+                const label = radio.closest('label');
+                if (label) {
+                    label.classList.add('disabled');
+                }
+            });
+
+            // Mark correct/incorrect options
+            let isCorrect = false;
+            radios.forEach(radio => {
+                const label = radio.closest('label');
+                if (radio.value === questionData.correctAnswer) {
+                    label.classList.add('correct-answer');
+                } else if (radio.checked) {
+                    label.classList.add('incorrect-answer');
+                }
             });
 
             if (selectedValue === questionData.correctAnswer) {
-                feedbackElement.textContent = 'Chính xác!';
+                feedbackElement.innerHTML = '<i class="fas fa-check-circle"></i> Chính xác!';
                 feedbackElement.classList.remove('incorrect');
                 feedbackElement.classList.add('correct');
+                isCorrect = true;
             } else {
-                feedbackElement.textContent = `Sai rồi! Đáp án đúng là: ${questionData.correctAnswer}`;
+                feedbackElement.innerHTML = `<i class="fas fa-times-circle"></i> Sai rồi! Đáp án đúng là: ${questionData.correctAnswer}`;
                 feedbackElement.classList.remove('correct');
                 feedbackElement.classList.add('incorrect');
             }
+
+            // Store user's answer and correctness
+            userAnswers[currentQuestionIndex] = {
+                selectedAnswer: selectedValue,
+                isCorrect: isCorrect
+            };
         }
 
+        // Updates state of navigation buttons (Prev/Next)
         function updateNavigationButtons() {
             document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
             document.getElementById('nextBtn').disabled = currentQuestionIndex === currentQuizData.length - 1;
+            // If it's the last question, change text of Next button to "Xem kết quả"
+            if (currentQuestionIndex === currentQuizData.length - 1) {
+                document.getElementById('nextBtn').innerHTML = 'Xem kết quả <i class="fas fa-poll"></i>';
+            } else {
+                document.getElementById('nextBtn').innerHTML = 'Câu tiếp theo <i class="fas fa-arrow-right"></i>';
+            }
         }
 
+        // Shows the next question
         function showNextQuestion() {
+            clearTimeout(autoAdvanceTimeout); // Clear any pending auto-advance
+
             if (currentQuestionIndex < currentQuizData.length - 1) {
                 currentQuestionIndex++;
                 loadQuestion(currentQuestionIndex);
-                window.scrollTo(0, 0);
+            } else {
+                showResults(); // If already on last question, clicking Next shows results
             }
         }
 
+        // Shows the previous question
         function showPrevQuestion() {
+            clearTimeout(autoAdvanceTimeout); // Clear any pending auto-advance
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
                 loadQuestion(currentQuestionIndex);
-                window.scrollTo(0, 0);
             }
         }
 
+        // Shuffles questions and starts a new quiz from the beginning
         function shuffleQuestionsAndReset() {
-            currentQuizData = [...quizData]; // Create a fresh copy
+            currentQuizData = [...quizData]; // Create a fresh copy from original
             shuffleArray(currentQuizData);
             currentQuestionIndex = 0;
+            userAnswers = {}; // Reset user answers
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'none';
+            document.getElementById('questionArea').style.display = 'block';
             loadQuestion(currentQuestionIndex);
-            window.scrollTo(0, 0);
         }
 
+        // Resets the quiz to its initial state
         function resetQuiz() {
-            currentQuizData = [...quizData]; // Create a fresh copy (original order for full reset)
+            currentQuizData = [...quizData]; // Restore original order and content
             currentQuestionIndex = 0;
+            userAnswers = {}; // Clear all previous answers
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'none';
+            document.getElementById('questionArea').style.display = 'block';
             loadQuestion(currentQuestionIndex);
-            window.scrollTo(0, 0);
         }
 
-        // Initial load
+        // Shows the results screen
+        function showResults() {
+            document.getElementById('questionArea').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+
+            let correctCount = 0;
+            for (const key in userAnswers) {
+                if (userAnswers[key].isCorrect) {
+                    correctCount++;
+                }
+            }
+            const totalQuestions = currentQuizData.length;
+            const incorrectCount = totalQuestions - correctCount;
+
+            document.getElementById('totalQuestionsResult').textContent = totalQuestions;
+            document.getElementById('correctAnswersCount').textContent = correctCount;
+            document.getElementById('incorrectAnswersCount').textContent = incorrectCount;
+
+            window.scrollTo(0, 0); // Scroll to top to see results
+        }
+
+        // Event listener for starting the quiz
+        document.getElementById('startQuizBtn').addEventListener('click', () => {
+            shuffleQuestionsAndReset(); // Start by shuffling and loading the first question
+        });
+
+        // Initial setup when the page loads
         document.addEventListener('DOMContentLoaded', () => {
-            currentQuizData = [...quizData]; // Initialize with a copy of original data
-            loadQuestion(currentQuestionIndex);
+            // Nothing to do here for initial load as start screen is default.
+            // Quiz starts when 'startQuizBtn' is clicked.
         });
     </script>
 </body>
