@@ -259,6 +259,7 @@
             border-radius: 5px;
             font-weight: bold;
             font-size: 0.9em;
+            display: none; /* Hidden by default */
         }
     </style>
 </head>
@@ -268,7 +269,7 @@
         <div id="quizContent">
             <div class="quiz-start-screen" id="startScreen">
                 <h2>Chào mừng bạn đến với bài kiểm tra Big Data!</h2>
-                <p>Nhấn "Bắt đầu bài kiểm tra" để bắt đầu ôn luyện.</p>
+                <p>Nhấn "Bắt đầu bài kiểm tra" để bắt đầu ôn luyện. Các câu hỏi sẽ tự động chuyển sau 3 giây khi bạn chọn đáp án.</p>
                 <button id="startQuizBtn">Bắt đầu bài kiểm tra</button>
             </div>
 
@@ -289,8 +290,8 @@
                     <p>Số câu sai: <span id="incorrectAnswersCount" class="incorrect-count"></span></p>
                 </div>
                 <div class="action-controls" style="margin-top: 40px;">
-                    <button onclick="shuffleQuestionsAndReset()"><i class="fas fa-random"></i> Đảo câu hỏi</button>
-                    <button onclick="resetQuiz()"><i class="fas fa-redo-alt"></i> Làm lại bài kiểm tra</button>
+                    <button onclick="shuffleQuestionsAndReset()"><i class="fas fa-random"></i> Đảo câu hỏi và làm lại</button>
+                    <button onclick="resetQuiz()"><i class="fas fa-redo-alt"></i> Làm lại bài kiểm tra (nguyên gốc)</button>
                 </div>
             </div>
         </div>
@@ -347,7 +348,7 @@
                 question: "Đâu là một kiểu của CSDL NOSQL",
                 options: ["SQL", "Document databases", "JSON", "Tất cả"],
                 correctAnswer: "Document databases",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Chọn đúng 5 đặc trưng cho Big Data?",
@@ -514,31 +515,31 @@
                 question: "Yếu tố nào quyết định để sử dụng NoSQL",
                 options: ["Tốc độ gia tăng CSDL", "Tính đa dạng của dữ liệu", "Tốc độ truy cập dữ liệu", "Tất cả"],
                 correctAnswer: "Tất cả",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "CSDL nào không phải kiểu Key-Value:",
                 options: ["MongoDB", "DynamoDB", "Redis", "Riak"],
                 correctAnswer: "MongoDB",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "CSDL nào không phải kiểu Document:",
                 options: ["MongoDB", "CouchDB", "Elasticsearch", "Riak"],
                 correctAnswer: "Riak",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "CSDL nào không phải kiểu Graph:",
                 options: ["InfoGrid", "Hbase", "In1niteGraph", "IBM Graph"],
                 correctAnswer: "Hbase",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "CSDL nào không phải kiểu Wide-Column:",
                 options: ["Hbase", "Cassandra", "Big Table", "Dex"],
                 correctAnswer: "Dex",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Ưu điểm của hệ thống HDFS là gì?",
@@ -561,7 +562,7 @@
                 question: "Ưu điểm của công nghệ Cluster",
                 options: ["Tất cả", "Hiệu quả chi phí", "Tính sẵn sàng cao", "Khả năng mở rộng linh hoạt"],
                 correctAnswer: "Tất cả",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Cluster node có mấy loại?",
@@ -573,13 +574,13 @@
                 question: "Nguồn của kiến trúc HDFS trong Hadoop có nguồn gốc là",
                 options: ["Hệ thống tệp phân phối của Google", "Hệ thống tệp phân tán của Yahoo", "Hệ thống tệp phân tán của Facebook", "Hệ thống tệp phân tán Azure"],
                 correctAnswer: "Hệ thống tệp phân phối của Google",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Loại dữ liệu mà Hadoop có thể xử lý là",
                 options: ["Structred (Có cấu trúc)", "Semi-structured (Bán cấu trúc)", "Unstructured (Không có cấu trúc)", "All of the above (Tất cả những điều trên)"],
                 correctAnswer: "All of the above (Tất cả những điều trên)",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "YARN là viết tắt của",
@@ -597,7 +598,7 @@
                 question: "Trong HDFS, các tệp không thể",
                 options: ["Đọc", "Xóa", "Thực thi", "Lưu trữ"],
                 correctAnswer: "Thực thi",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "So với RDBMS, Hadoop",
@@ -740,13 +741,13 @@
                 question: "Đám mây Microsoft Azure cung cấp dịch vụ NoSQL Database",
                 options: ["Table Storage", "SQL DB", "Azure Functions", "Cloud Service"],
                 correctAnswer: "Table Storage",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Dịch vụ tích hợp dữ liệu trên đám mây trên Google Cloud Platform",
                 options: ["Google Cloud Dataprep", "Google Cloud Data Fusion", "Google Data Catalog", "Google BigQuery"],
                 correctAnswer: "Google Cloud Data Fusion",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Dịch vụ thông minh giúp khái phá, làm sạch dữ liệu trên Google Cloud Platform",
@@ -758,7 +759,7 @@
                 question: "Trên Google Cloud Platform dịch vụ nào quản lý CSDL NoQuery",
                 options: ["Google Cloud Dataprep", "Google Data Catalog", "Google BigQuery", "Cloud Bigtable"],
                 correctAnswer: "Cloud Bigtable",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Trên Google Cloud Platform dịch vụ nào quản lý danh mục dữ liệu",
@@ -770,7 +771,7 @@
                 question: "Trên Google Cloud Platform dịch vụ phân tích dữ liệu được cung cấp",
                 options: ["Google Data Catalog", "Google BigQuery", "Google Cloud Dataprep", "Goolge Functions"],
                 correctAnswer: "Google BigQuery",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Nền tảng Cloudera hỗ trợ hệ CSDL quan hệ nào?",
@@ -794,7 +795,7 @@
                 question: "Cloudera Enterprise có thể được triển khai trên đám mây nào",
                 options: ["Google Cloud", "Amazon AWS", "Tất cả", "Microsoft Azure"],
                 correctAnswer: "Tất cả",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Công cụ trên Google Cloud Platform chuyển đổi dữ liệu hỗ trợ quyết định",
@@ -854,7 +855,7 @@
                 question: "Loại phân tích dữ liệu nào kết quả thu được cho ta biết làm thể nào để nó xảy ra",
                 options: ["Phân tích mô tả", "Phân tích chuẩn đoán", "Phân tích dự đoán", "Phân tích đề xuất"],
                 correctAnswer: "Phân tích đề xuất",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Mục tiêu đúng nhất của phân tích dữ liệu lớn là gì?",
@@ -866,7 +867,7 @@
                 question: "Hoạt động của Map Reduce bao gồm:",
                 options: ["Trộn & sắp xếp - Map - Reduce", "Map - Trộn & sắp xếp – Reduce", "Reduce - Map - Trộn & sắp xếp", "Sắp xếp - Trộn & Map – Reduce"],
                 correctAnswer: "Map - Trộn & sắp xếp – Reduce",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Phân tích chuẩn đoán sử dụng kỹ thuật nào?",
@@ -932,7 +933,7 @@
                 question: "Các ứng dụng phân tích dữ liệu lớn cho Lĩnh vực bán lẻ",
                 options: ["Dự đoán hành vi mua sắm của khách hàng", "Xây dựng mô hình chi tiêu cho từng khách hàng", "Phân tích hành trình của khách hàng", "Tất cả"],
                 correctAnswer: "Tất cả",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Ứng dụng phân tích dữ liệu lớn hỗ trợ ngành Y tế",
@@ -950,13 +951,13 @@
                 question: "Trong kiến trúc Apache Hadoop YARN là",
                 options: ["Lớp lưu trữ", "Lớp truyền tải", "Lớp quản lý tài nguyên", "Lớp xử lý dữ liệu"],
                 correctAnswer: "Lớp quản lý tài nguyên",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Trong kiến trúc Apache Hadoop MapReduce là",
                 options: ["Lớp lưu trữ", "Lớp truyền tải", "Lớp quản lý tài nguyên", "Lớp xử lý dữ liệu"],
                 correctAnswer: "Lớp xử lý dữ liệu",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Kiến trúc Hadoop hỗ trợ những ngôn ngữ nào",
@@ -1022,7 +1023,7 @@
                 question: "Trong HDFS, các tệp không thể",
                 options: ["Đọc", "Xoá", "Thực thi", "Lưu trữ"],
                 correctAnswer: "Thực thi",
-                source: [] // No specific source for this question's answer within the provided text.
+                source: []
             },
             {
                 question: "Điều nào sau đây không phải là mục tiêu của HDFS?",
@@ -1044,9 +1045,9 @@
             }
         ];
 
-        let currentQuizData = [];
+        let currentQuizData = []; // This will hold the shuffled questions for the current quiz session
         let currentQuestionIndex = 0;
-        let userAnswers = {}; // To store user's answers and correctness
+        let userAnswers = {}; // { questionIndex: { selectedAnswer: 'value', isCorrect: true/false } }
         let autoAdvanceTimeout;
         const AUTO_ADVANCE_DELAY = 3000; // 3 seconds delay
 
@@ -1098,16 +1099,15 @@
             questionDiv.appendChild(feedbackDiv);
             questionContainer.appendChild(questionDiv);
 
-            // Re-select if user has already answered this question
-            if (userAnswers[index] && userAnswers[index].selectedAnswer) {
+            // If question has been answered before, restore selection and feedback
+            if (userAnswers[index]) {
                 const radios = document.getElementsByName('currentQuestion');
                 radios.forEach(radio => {
                     if (radio.value === userAnswers[index].selectedAnswer) {
                         radio.checked = true;
                     }
                 });
-                // Immediately check and display feedback if already answered
-                checkAnswer(userAnswers[index].selectedAnswer, true);
+                checkAnswer(userAnswers[index].selectedAnswer, true); // Re-apply feedback
             }
 
             updateNavigationButtons();
@@ -1117,6 +1117,12 @@
         // Handles user selecting an answer
         function handleAnswerSelection(selectedRadio) {
             const selectedValue = selectedRadio.value;
+            
+            // Prevent re-checking if already answered and feedback shown
+            if (userAnswers[currentQuestionIndex] && userAnswers[currentQuestionIndex].selectedAnswer) {
+                return; 
+            }
+
             checkAnswer(selectedValue);
 
             // Set timeout to auto-advance to next question
@@ -1166,22 +1172,26 @@
                 feedbackElement.classList.add('incorrect');
             }
 
-            // Store user's answer and correctness
-            userAnswers[currentQuestionIndex] = {
-                selectedAnswer: selectedValue,
-                isCorrect: isCorrect
-            };
+            // Store user's answer and correctness only if not a recheck
+            if (!isRecheck) {
+                userAnswers[currentQuestionIndex] = {
+                    selectedAnswer: selectedValue,
+                    isCorrect: isCorrect
+                };
+            }
         }
 
         // Updates state of navigation buttons (Prev/Next)
         function updateNavigationButtons() {
             document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
-            document.getElementById('nextBtn').disabled = currentQuestionIndex === currentQuizData.length - 1;
-            // If it's the last question, change text of Next button to "Xem kết quả"
+            
             if (currentQuestionIndex === currentQuizData.length - 1) {
                 document.getElementById('nextBtn').innerHTML = 'Xem kết quả <i class="fas fa-poll"></i>';
+                document.getElementById('nextBtn').disabled = false; // Always enabled for results
             } else {
                 document.getElementById('nextBtn').innerHTML = 'Câu tiếp theo <i class="fas fa-arrow-right"></i>';
+                // Only enable next if current question has been answered
+                document.getElementById('nextBtn').disabled = !userAnswers[currentQuestionIndex];
             }
         }
 
@@ -1235,12 +1245,18 @@
             document.getElementById('resultsScreen').style.display = 'block';
 
             let correctCount = 0;
-            for (const key in userAnswers) {
-                if (userAnswers[key].isCorrect) {
+            // Iterate through original quizData indices to count results
+            for (let i = 0; i < quizData.length; i++) {
+                // Find the index of this original question in the currentQuizData (shuffled)
+                const originalQuestion = quizData[i];
+                const shuffledIndex = currentQuizData.findIndex(q => q.question === originalQuestion.question);
+                
+                if (userAnswers[shuffledIndex] && userAnswers[shuffledIndex].isCorrect) {
                     correctCount++;
                 }
             }
-            const totalQuestions = currentQuizData.length;
+            
+            const totalQuestions = quizData.length; // Always base on total original questions
             const incorrectCount = totalQuestions - correctCount;
 
             document.getElementById('totalQuestionsResult').textContent = totalQuestions;
