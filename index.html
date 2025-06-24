@@ -3,885 +3,947 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduQuiz - Ôn Thi Trắc Nghiệm</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>EduQuiz - Big Data HUBT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #4285f4;
-            --secondary-color: #34a853;
-            --danger-color: #ea4335;
-            --warning-color: #fbbc05;
-            --light-gray: #f5f5f5;
-            --dark-gray: #333;
-            --medium-gray: #757575;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
         body {
             font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            background-color: #f9f9f9;
-            color: var(--dark-gray);
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-        
-        .header p {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-        
-        .upload-section {
-            padding: 25px;
-            background-color: var(--light-gray);
-            border-bottom: 1px solid #e0e0e0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .file-input-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .file-input-label {
-            display: block;
-            padding: 12px 20px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 5px;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .file-input-label:hover {
-            background-color: #3367d6;
-        }
-        
-        .file-input {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-        
-        .parse-btn {
-            padding: 12px 25px;
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .parse-btn:hover {
-            background-color: #2d9249;
-        }
-        
-        .parse-btn:disabled {
-            background-color: var(--medium-gray);
-            cursor: not-allowed;
-        }
-        
-        .quiz-controls {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 25px;
-            background-color: white;
-            border-bottom: 1px solid #e0e0e0;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .control-group {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .control-label {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .nav-btn {
-            padding: 8px 15px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .nav-btn:hover {
-            background-color: #3367d6;
-        }
-        
-        .nav-btn:disabled {
-            background-color: var(--medium-gray);
-            cursor: not-allowed;
-        }
-        
-        .timer-container {
-            padding: 10px 25px;
-            background-color: #f1f8fe;
-            text-align: center;
-            font-size: 15px;
-            color: var(--dark-gray);
-        }
-        
-        .quiz-content {
-            padding: 25px;
-        }
-        
-        .question {
-            font-size: 20px;
-            font-weight: 500;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            color: var(--dark-gray);
-        }
-        
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .option {
-            padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-            padding-left: 45px;
-        }
-        
-        .option:hover {
-            border-color: var(--primary-color);
-            background-color: #f5f9ff;
-        }
-        
-        .option.selected {
-            border-color: var(--primary-color);
-            background-color: #e8f0fe;
-        }
-        
-        .option.correct {
-            border-color: var(--secondary-color);
-            background-color: #e6f4ea;
-        }
-        
-        .option.incorrect {
-            border-color: var(--danger-color);
-            background-color: #fce8e6;
-        }
-        
-        .option-radio {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-            border: 2px solid #ccc;
-            border-radius: 50%;
-        }
-        
-        .option.selected .option-radio {
-            border-color: var(--primary-color);
-            background-color: var(--primary-color);
-        }
-        
-        .option.correct .option-radio {
-            border-color: var(--secondary-color);
-            background-color: var(--secondary-color);
-        }
-        
-        .option.incorrect .option-radio {
-            border-color: var(--danger-color);
-            background-color: var(--danger-color);
-        }
-        
-        .feedback {
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 20px;
-            display: none;
-            animation: fadeIn 0.3s;
-        }
-        
-        .correct-feedback {
-            background-color: #e6f4ea;
-            color: var(--secondary-color);
-            border-left: 4px solid var(--secondary-color);
-        }
-        
-        .incorrect-feedback {
-            background-color: #fce8e6;
-            color: var(--danger-color);
-            border-left: 4px solid var(--danger-color);
-        }
-        
-        .progress {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 25px;
-            background-color: var(--light-gray);
-            border-top: 1px solid #e0e0e0;
-        }
-        
-        .progress-text {
-            font-size: 14px;
-            color: var(--medium-gray);
-        }
-        
-        .progress-bar {
-            flex-grow: 1;
-            height: 8px;
-            background-color: #e0e0e0;
-            border-radius: 4px;
-            margin: 0 15px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background-color: var(--primary-color);
-            width: 0%;
-            transition: width 0.3s;
-        }
-        
-        .results {
-            padding: 25px;
-            background-color: #f1f8fe;
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-        
-        .results h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: var(--dark-gray);
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .stat {
-            text-align: center;
-            min-width: 120px;
-        }
-        
-        .stat-value {
-            font-size: 28px;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-        
-        .correct-stat {
-            color: var(--secondary-color);
-        }
-        
-        .incorrect-stat {
-            color: var(--danger-color);
-        }
-        
-        .score-stat {
-            color: var(--primary-color);
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: var(--medium-gray);
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
+            background-color: #ffffff;
             padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            margin-bottom: 20px;
         }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
-            margin: 0 auto 15px;
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .quiz-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fdfdfd;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .quiz-section h3 {
+            color: #34495e;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.3em;
         }
-        
-        @media (max-width: 768px) {
-            .quiz-controls {
-                flex-direction: column;
-            }
-            
-            .control-group {
-                justify-content: space-between;
-                width: 100%;
-            }
-            
-            .nav-buttons {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .nav-btn {
-                flex-grow: 1;
-            }
-            
-            .question {
-                font-size: 18px;
-            }
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            padding: 12px;
+            background-color: #ebf5f0;
+            border: 1px solid #d4e7da;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .options label:hover {
+            background-color: #dbebe3;
+            border-color: #c3d7c9;
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: right;
+            padding-right: 10px;
+        }
+        .feedback.correct {
+            color: #27ae60;
+        }
+        .feedback.incorrect {
+            color: #e74c3c;
+        }
+        .controls {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .controls button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+            margin: 0 10px;
+        }
+        .controls button:hover {
+            background-color: #2980b9;
+        }
+        .owner-info {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>EduQuiz - Ôn Thi Trắc Nghiệm</h1>
-            <p>Hệ thống ôn tập và kiểm tra kiến thức</p>
+        <h1>EduQuiz - Big Data HUBT (2TC) - Update</h1>
+
+        <div class="controls">
+            <button onclick="shuffleQuestions()">Đảo câu hỏi</button>
+            <button onclick="resetQuiz()">Làm lại</button>
         </div>
-        
-        <div class="upload-section">
-            <div class="file-input-wrapper">
-                <label class="file-input-label" id="fileInputLabel">Chọn file PDF đề thi</label>
-                <input type="file" id="pdfFile" accept=".pdf" class="file-input">
-            </div>
-            <button class="parse-btn" id="parseBtn" disabled>Phân tích đề thi</button>
-        </div>
-        
-        <div class="loading" id="loadingIndicator">
-            <div class="spinner"></div>
-            <p>Đang phân tích đề thi, vui lòng chờ...</p>
-        </div>
-        
-        <div class="quiz-controls" id="quizControls" style="display: none;">
-            <div class="control-group">
-                <label class="control-label">
-                    <input type="checkbox" id="shuffleQuestions"> Đảo câu hỏi
-                </label>
-                <label class="control-label">
-                    <input type="checkbox" id="shuffleOptions"> Đảo đáp án
-                </label>
-            </div>
-            
-            <div class="control-group">
-                <label class="control-label">
-                    <input type="checkbox" id="autoNext" checked> Tự động chuyển
-                </label>
-                <label class="control-label">
-                    <input type="checkbox" id="showFeedback" checked> Hiển thị kết quả
-                </label>
-            </div>
-            
-            <div class="nav-buttons">
-                <button class="nav-btn" id="prevBtn" disabled>← Câu trước</button>
-                <button class="nav-btn" id="nextBtn" disabled>Câu tiếp →</button>
-            </div>
-        </div>
-        
-        <div class="timer-container" id="timerContainer" style="display: none;">
-            Tự động chuyển sau: <span id="countdown">3</span> giây
-        </div>
-        
-        <div class="quiz-content" id="quizContent" style="display: none;">
-            <div class="question" id="questionText"></div>
-            <div class="options" id="optionsContainer"></div>
-            <div class="feedback" id="feedbackContainer"></div>
-        </div>
-        
-        <div class="progress" id="progressContainer" style="display: none;">
-            <span class="progress-text" id="currentQuestion">0</span>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <span class="progress-text" id="totalQuestions">0</span>
-        </div>
-        
-        <div class="results" id="resultsContainer">
-            <h2>Kết quả bài làm</h2>
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-value correct-stat" id="correctCount">0</div>
-                    <div class="stat-label">Câu đúng</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value incorrect-stat" id="incorrectCount">0</div>
-                    <div class="stat-label">Câu sai</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value score-stat" id="score">0%</div>
-                    <div class="stat-label">Tổng điểm</div>
-                </div>
-            </div>
+
+        <form id="quizForm">
+            </form>
+
+        <div class="controls">
+            <button onclick="shuffleQuestions()">Đảo câu hỏi</button>
+            <button onclick="resetQuiz()">Làm lại</button>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <div class="owner-info">
+        <p>Người sở hữu trang: Phan Minh Nam</p>
+    </div>
+
     <script>
-        // Thiết lập worker path cho PDF.js
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
-        
-        // Biến toàn cục
-        let questions = [];
-        let currentQuestionIndex = 0;
-        let correctAnswers = 0;
-        let incorrectAnswers = 0;
-        let timer;
-        let countdownValue = 3;
-        
-        // DOM Elements
-        const pdfFileInput = document.getElementById('pdfFile');
-        const fileInputLabel = document.getElementById('fileInputLabel');
-        const parseBtn = document.getElementById('parseBtn');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const quizControls = document.getElementById('quizControls');
-        const timerContainer = document.getElementById('timerContainer');
-        const quizContent = document.getElementById('quizContent');
-        const progressContainer = document.getElementById('progressContainer');
-        const questionText = document.getElementById('questionText');
-        const optionsContainer = document.getElementById('optionsContainer');
-        const feedbackContainer = document.getElementById('feedbackContainer');
-        const currentQuestionSpan = document.getElementById('currentQuestion');
-        const totalQuestionsSpan = document.getElementById('totalQuestions');
-        const progressFill = document.getElementById('progressFill');
-        const resultsContainer = document.getElementById('resultsContainer');
-        const correctCountSpan = document.getElementById('correctCount');
-        const incorrectCountSpan = document.getElementById('incorrectCount');
-        const scoreSpan = document.getElementById('score');
-        const countdownSpan = document.getElementById('countdown');
-        const shuffleQuestionsCheckbox = document.getElementById('shuffleQuestions');
-        const shuffleOptionsCheckbox = document.getElementById('shuffleOptions');
-        const autoNextCheckbox = document.getElementById('autoNext');
-        const showFeedbackCheckbox = document.getElementById('showFeedback');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        
-        // Sự kiện khi chọn file
-        pdfFileInput.addEventListener('change', function(e) {
-            if (this.files.length) {
-                fileInputLabel.textContent = this.files[0].name;
-                parseBtn.disabled = false;
-            } else {
-                fileInputLabel.textContent = 'Chọn file PDF đề thi';
-                parseBtn.disabled = true;
+        const quizData = [
+            {
+                question: "Dữ liệu của Big Data là loại nào?",
+                options: ["Structured Data", "Semi-Structured Data", "Unstructured Data", "Tất cả"],
+                correctAnswer: "Tất cả",
+                source: [1, 2]
+            },
+            {
+                question: "Đặc trưng nào không phải của Big Data?",
+                options: ["Volume", "Variety", "Vision", "Velocity"],
+                correctAnswer: "Vision",
+                source: [3]
+            },
+            {
+                question: "NoSQL là?",
+                options: ["Database", "1eld", "Document", "Collection"],
+                correctAnswer: "Database",
+                source: [4]
+            },
+            {
+                question: "Mục tiêu của NoSQL là gì?",
+                options: [
+                    "NoSQL cung cấp một giải pháp thay thế cho cơ sở dữ liệu SQL để lưu trữ dữ liệu dạng văn bản.",
+                    "Cơ sở dữ liệu NoSQL cho phép lưu trữ dữ liệu không có cấu trúc.",
+                    "NoSQL không thích hợp để lưu trữ dữ liệu có cấu trúc.",
+                    "NoSQL là một định dạng dữ liệu mới để lưu trữ các tập dữ liệu lớn."
+                ],
+                correctAnswer: "NoSQL là một định dạng dữ liệu mới để lưu trữ các tập dữ liệu lớn.",
+                source: [5, 6, 7, 8]
+            },
+            {
+                question: "Cloudera phát triển công cụ nào?",
+                options: ["HCatalog", "Hbase", "Imphala", "Oozie"],
+                correctAnswer: "Hbase",
+                source: [9]
+            },
+            {
+                question: "Loại nào không phải là CSDL NoSQL?",
+                options: ["SQL Server", "MongoDB", "Cassandra", "Không có"],
+                correctAnswer: "SQL Server",
+                source: [10, 11]
+            },
+            {
+                question: "Đâu là một kiểu của CSDL NOSQL",
+                options: ["SQL", "Document databases", "JSON", "Tất cả"],
+                correctAnswer: "Document databases",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Chọn đúng 5 đặc trưng cho Big Data?",
+                options: ["Volume, Velocity, Variety, Veracity, Value", "Volume, Videos, Velocity, Variability, Value", "Volume, Variability, Veracity, Visualization, Value", "Volume, Velocity, Veracity, Visualization, Value"],
+                correctAnswer: "Volume, Velocity, Variety, Veracity, Value",
+                source: [12]
+            },
+            {
+                question: "Velocity (Tốc độ) là đặc trưng nói về?",
+                options: ["Tốc độ gia tăng khối lượng dữ liệu lớn", "Tốc độ cập nhật dữ liệu lớn", "Tốc độ xử lý dữ liệu lớn", "Tốc độ lưu trữ dữ liệu lớn"],
+                correctAnswer: "Tốc độ xử lý dữ liệu lớn",
+                source: [13]
+            },
+            {
+                question: "Variety (Tính đa dạng) là đặc trưng về?",
+                options: ["Kiểu dữ liệu thu thập", "Kiểu nội dung dữ liệu", "Nguồn thu thập dữ liệu", "Phương thức xử lý dữ liệu"],
+                correctAnswer: "Kiểu dữ liệu thu thập",
+                source: [14]
+            },
+            {
+                question: "Đặc trưng quan trọng nhất của Big Data?",
+                options: ["Khối lượng", "Tính đa dạng", "Tốc độ", "Tất cả"],
+                correctAnswer: "Tất cả",
+                source: [15]
+            },
+            {
+                question: "Đâu là đặc trưng quyết việc triển khai Dữ liệu lớn?",
+                options: ["Khối lượng", "Giá trị", "Tốc Độ", "Tính đa dạng"],
+                correctAnswer: "Giá trị",
+                source: [16, 17]
+            },
+            {
+                question: "Tích hợp dữ liệu là quá trình?",
+                options: [
+                    "Kết hợp các dữ liệu không đồng nhất từ nhiều nguồn khác nhau",
+                    "Sao chép dữ liệu vào CSDL hệ thống để tiến hành phân tích",
+                    "Làm sạch các dữ liệu thu thập được từ các hệ thống thành phần",
+                    "Tăng giá trị từ các tài nguyên dữ liệu đang lưu trữ phân tán"
+                ],
+                correctAnswer: "Kết hợp các dữ liệu không đồng nhất từ nhiều nguồn khác nhau",
+                source: [18]
+            },
+            {
+                question: "Thuật ngữ Thuật ngữ Dữ liệu lớn ra đời năm nào?",
+                options: ["1997", "2000", "1998", "1941"],
+                correctAnswer: "1997",
+                source: [19]
+            },
+            {
+                question: "Các dạng thức khoa học dữ liệu của Jim Gray?",
+                options: ["Thực nghiệm", "Lý thuyết", "Tính toán", "Tất cả các ý"],
+                correctAnswer: "Tất cả các ý",
+                source: [20]
+            },
+            {
+                question: "Phát biểu nào không phải dạng thức nghiên cứu Khoa học dữ liệu của Jim Gray?",
+                options: ["Khai thác dữ liệu", "Mô phỏng", "Tính toán", "Thực nghiệm"],
+                correctAnswer: "Mô phỏng",
+                source: [21]
+            },
+            {
+                question: "Đâu không phải là phương thức xử lý dữ liệu lớn?",
+                options: ["Thu thập (acquire)", "Đánh giá (reviews)", "Tổ chức (organize)", "Phân tích (analyze)"],
+                correctAnswer: "Đánh giá (reviews)",
+                source: [22, 23]
+            },
+            {
+                question: "RDBMS là gì?",
+                options: ["Relational Database Management System", "Relat Data Management System", "Relational Database Microsoft System", "Tất cả"],
+                correctAnswer: "Relational Database Management System",
+                source: [24]
+            },
+            {
+                question: "Thị trường Big Data bao gồm?",
+                options: ["Phần cứng", "Phần Mềm", "Tất cả", "Dịch vụ"],
+                correctAnswer: "Tất cả",
+                source: [25]
+            },
+            {
+                question: "Nhược điểm của tích hợp dữ liệu theo phương pháp Tight Coupling?",
+                options: ["Độ trễ", "Phản hồi truy vấn", "Phụ thuộc vào nguồn dữ liệu", "Tất cả"],
+                correctAnswer: "Độ trễ",
+                source: [26]
+            },
+            {
+                question: "Nhược điểm của tích hợp dữ liệu theo phương pháp Loose Coupling?",
+                options: ["Tất cả", "Chi phí cao", "Độ trễ", "Phụ thuộc mạng/băng thông"],
+                correctAnswer: "Phụ thuộc mạng/băng thông",
+                source: [27]
+            },
+            {
+                question: "Công cụ nào hỗ trợ tốt NoSQL?",
+                options: ["SAP Data Services", "Oracle Data Integrator", "SQL Server Integration Services", "Tất cả"],
+                correctAnswer: "Tất cả",
+                source: [28]
+            },
+            {
+                question: "Công cụ tích hợp dữ liệu Boomi là của?",
+                options: ["Dell", "IBM", "Microsoft", "SAP"],
+                correctAnswer: "Dell",
+                source: [29, 30]
+            },
+            {
+                question: "Công cụ SQL Server Integrator do ai phát triển?",
+                options: ["Oracle", "IBM", "Microsoft", "SAP"],
+                correctAnswer: "Microsoft",
+                source: [31]
+            },
+            {
+                question: "SAP Data Service là công cụ để làm gì?",
+                options: ["Lưu trữ dữ liệu", "Tích hợp dữ liệu", "Phân tích dữ liệu", "Tất cả"],
+                correctAnswer: "Tích hợp dữ liệu",
+                source: [32]
+            },
+            {
+                question: "Hệ quản trị CSLD DynamoDB là kiểu nào?",
+                options: ["Key value", "Wide Column based", "Document based", "Graph based"],
+                correctAnswer: "Key value",
+                source: [33]
+            },
+            {
+                question: "Hệ quản trị CSLD MongoDB là kiểu nào?",
+                options: ["Document based", "Key value", "Wide Column based", "Graph based"],
+                correctAnswer: "Document based",
+                source: [34]
+            },
+            {
+                question: "Hệ quản trị CSLD Neo4J là kiểu nào?",
+                options: ["Key value", "Wide Column based", "Document based", "Graph based"],
+                correctAnswer: "Graph based",
+                source: [35]
+            },
+            {
+                question: "Hệ quản trị CSLD IBM Graph là kiểu nào?",
+                options: ["Key value", "Document based", "Graph based", "Wide Column based"],
+                correctAnswer: "Graph based",
+                source: [36, 37]
+            },
+            {
+                question: "Hệ quản trị CSLD Google Big Table là kiểu nào?",
+                options: ["Key value", "Wide Column based", "Document based", "Graph based"],
+                correctAnswer: "Wide Column based",
+                source: [38]
+            },
+            {
+                question: "Đâu không phải là RDBMS?",
+                options: ["IBM DB2", "MS SQL Server", "MS Access", "Cassandra"],
+                correctAnswer: "Cassandra",
+                source: [39]
+            },
+            {
+                question: "Loại nào là dữ liệu Bán cấu trúc?",
+                options: ["Tất cả", "JSON", "CSV", "XML"],
+                correctAnswer: "Tất cả",
+                source: [40]
+            },
+            {
+                question: "Loại nào là dữ liệu Unstructured?",
+                options: ["Video", "XML", "Table", "Tất cả"],
+                correctAnswer: "Video",
+                source: [41]
+            },
+            {
+                question: "Yếu tố nào quyết định để sử dụng NoSQL",
+                options: ["Tốc độ gia tăng CSDL", "Tính đa dạng của dữ liệu", "Tốc độ truy cập dữ liệu", "Tất cả"],
+                correctAnswer: "Tất cả",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "CSDL nào không phải kiểu Key-Value:",
+                options: ["MongoDB", "DynamoDB", "Redis", "Riak"],
+                correctAnswer: "MongoDB",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "CSDL nào không phải kiểu Document:",
+                options: ["MongoDB", "CouchDB", "Elasticsearch", "Riak"],
+                correctAnswer: "Riak",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "CSDL nào không phải kiểu Graph:",
+                options: ["InfoGrid", "Hbase", "In1niteGraph", "IBM Graph"],
+                correctAnswer: "Hbase",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "CSDL nào không phải kiểu Wide-Column:",
+                options: ["Hbase", "Cassandra", "Big Table", "Dex"],
+                correctAnswer: "Dex",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Ưu điểm của hệ thống HDFS là gì?",
+                options: ["Lưu trữ phân tán, xử lý song song, khả năng chịu lỗi cao", "Lưu trữ song song, xử lý phân tán, tính sẵn sàng cao", "Xử lý phân tán song song, khả năng chịu lỗi chấp nhận sai sót", "Tất cả"],
+                correctAnswer: "Lưu trữ phân tán, xử lý song song, khả năng chịu lỗi cao",
+                source: [43]
+            },
+            {
+                question: "Ưu điểm của DFS là gì?",
+                options: [
+                    "Hệ thống lưu trữ song song nên tránh được ảnh hưởng khi một máy chủ hoặc bộ nhớ bị lỗi",
+                    "Hệ thống được sao lưu tại Server thứ hai nên đảm bảo việc cung cấp dữ liệu",
+                    "Khi một máy chủ hoặc bộ nhớ bị lỗi, hệ thống tệp phân tán vẫn đảm bảo có thể cung cấp dữ liệu ổn định",
+                    "Tất cả"
+                ],
+                correctAnswer: "Khi một máy chủ hoặc bộ nhớ bị lỗi, hệ thống tệp phân tán vẫn đảm bảo có thể cung cấp dữ liệu ổn định",
+                source: [44, 45]
+            },
+            {
+                question: "Ưu điểm của công nghệ Cluster",
+                options: ["Tất cả", "Hiệu quả chi phí", "Tính sẵn sàng cao", "Khả năng mở rộng linh hoạt"],
+                correctAnswer: "Tất cả",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Cluster node có mấy loại?",
+                options: ["1", "2", "3", "4"],
+                correctAnswer: "2",
+                source: [46]
+            },
+            {
+                question: "Nguồn của kiến trúc HDFS trong Hadoop có nguồn gốc là",
+                options: ["Hệ thống tệp phân phối của Google", "Hệ thống tệp phân tán của Yahoo", "Hệ thống tệp phân tán của Facebook", "Hệ thống tệp phân tán Azure"],
+                correctAnswer: "Hệ thống tệp phân phối của Google",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Loại dữ liệu mà Hadoop có thể xử lý là",
+                options: ["Structred (Có cấu trúc)", "Semi-structured (Bán cấu trúc)", "Unstructured (Không có cấu trúc)", "All of the above (Tất cả những điều trên)"],
+                correctAnswer: "All of the above (Tất cả những điều trên)",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "YARN là viết tắt của",
+                options: ["Yahoo's another resource name", "Yet another resource negotiator", "Yahoo's archived Resource names", "Yet another resource need."],
+                correctAnswer: "Yet another resource negotiator",
+                source: [47, 48]
+            },
+            {
+                question: "Điều nào sau đây không phải là mục tiêu của HDFS?",
+                options: ["Phát hiện lỗi và khôi phục", "Xử lý tập dữ liệu khổng lồ", "Ngăn chặn việc xóa dữ liệu", "Cung cấp băng thông mạng cao để di chuyển dữ liệu"],
+                correctAnswer: "Ngăn chặn việc xóa dữ liệu",
+                source: [49, 50]
+            },
+            {
+                question: "Trong HDFS, các tệp không thể",
+                options: ["Đọc", "Xóa", "Thực thi", "Lưu trữ"],
+                correctAnswer: "Thực thi",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "So với RDBMS, Hadoop",
+                options: ["Có tính toàn vẹn dữ liệu cao hơn.", "Có giao dịch ACID không", "Thích hợp để đọc và truy vấn nhanh", "Hoạt động tốt hơn trên dữ liệu phi cấu trúc và bán cấu trúc."],
+                correctAnswer: "Hoạt động tốt hơn trên dữ liệu phi cấu trúc và bán cấu trúc.",
+                source: [51, 52]
+            },
+            {
+                question: "Vấn đề chính gặp phải khi đọc và ghi dữ liệu song song từ nhiều đĩa là gì?",
+                options: ["Xử lý khối lượng lớn dữ liệu nhanh hơn.", "Kết hợp dữ liệu từ nhiều đĩa.", "Phần mềm cần thiết để thực hiện nhiệm vụ này là cực kỳ tốn kém.", "Phần cứng cần thiết để thực hiện tác vụ này là cực kỳ tốn kém."],
+                correctAnswer: "Kết hợp dữ liệu từ nhiều đĩa.",
+                source: [53, 54, 55, 56]
+            },
+            {
+                question: "Tính năng định vị dữ liệu trong Hadoop có nghĩa là",
+                options: ["lưu trữ cùng một dữ liệu trên nhiều nút.", "chuyển vị trí dữ liệu từ nút này sang nút khác.", "đồng định vị dữ liệu với các nút tính toán.", "Phân phối dữ liệu trên nhiều nút."],
+                correctAnswer: "đồng định vị dữ liệu với các nút tính toán.",
+                source: [57, 58, 59]
+            },
+            {
+                question: "Các tệp HDFS được thiết kế cho",
+                options: ["Nhiều người viết và sửa đổi ở các hiệu số tùy ý.", "Chỉ nối vào cuối tệp.", "Chỉ ghi thành tệp một lần.", "Truy cập dữ liệu có độ trễ thấp."],
+                correctAnswer: "Chỉ nối vào cuối tệp.",
+                source: [60, 61, 62]
+            },
+            {
+                question: "Hệ thống Apache Hadoop được viết bằng ngôn ngữ nào?",
+                options: ["C++", "Python", "Java", "Go"],
+                correctAnswer: "Java",
+                source: [63, 64]
+            },
+            {
+                question: "Cái nào không phải là một trong đặc trưng 3Vs của dữ liệu lớn?",
+                options: ["Vận tốc - Velocity", "Tính xác thực - Veracity", "Khối lượng - Volume", "Đa dạng - Variety"],
+                correctAnswer: "Tính xác thực - Veracity",
+                source: [65]
+            },
+            {
+                question: "Điều nào sau đây đúng đối với Hadoop?",
+                options: ["Đây là một khung phân tán.", "Thuật toán chính được sử dụng trong đó là Map Reduce.", "Nó chạy có thể thực thi trên hạ tầng Cloud Computing.", "Tất cả đều đúng"],
+                correctAnswer: "Tất cả đều đúng",
+                source: [66, 67, 68]
+            },
+            {
+                question: "Loại nào sau đây lưu trữ dữ liệu?",
+                options: ["Name node", "Data node", "Master node", "Không có"],
+                correctAnswer: "Data node",
+                source: [69]
+            },
+            {
+                question: "Node nào sau đây quản lý các nút khác?",
+                options: ["Name node", "Data node", "Slave node", "Tất cả"],
+                correctAnswer: "Name node",
+                source: [70]
+            },
+            {
+                question: "Hadoop xử lý khối lượng lớn dữ liệu như thế nào?",
+                options: [
+                    "Hadoop sử dụng song song rất nhiều máy. Điều này tối ưu hóa việc xử lý dữ liệu.",
+                    "Hadoop được thiết kế đặc biệt để xử lý lượng lớn dữ liệu bằng cách tận dụng phần cứng MPP.",
+                    "Hadoop gửi mã đến dữ liệu thay vì gửi dữ liệu đến mã.",
+                    "Hadoop sử dụng các kỹ thuật bộ nhớ đệm phức tạp trên NameNode để tăng tốc độ xử lý dữ liệu."
+                ],
+                correctAnswer: "Hadoop gửi mã đến dữ liệu thay vì gửi dữ liệu đến mã.",
+                source: [71, 72, 73, 74]
+            },
+            {
+                question: "MapReduce do công ty nào phát triển?",
+                options: ["Apache", "Google", "IBM", "Amazon"],
+                correctAnswer: "Google",
+                source: [75, 76]
+            },
+            {
+                question: "Dịch vụ đám mây nào hỗ trợ tốt cho Big Data?",
+                options: ["Amazon AWS", "Google Cloud", "Tất cả", "Microsoft Azure"],
+                correctAnswer: "Tất cả",
+                source: [77]
+            },
+            {
+                question: "Nhược điểm khi triển khai Big Data trên nền tảng Cloud Computing là?",
+                options: ["Nhiều rủi ro cho hệ thống", "Không có ý đúng", "Tốc độ xử lý không đảm bảo", "Phân tích theo thời gian thực kém"],
+                correctAnswer: "Không có ý đúng",
+                source: [78]
+            },
+            {
+                question: "Mô hình Điện toán đám mây IaaS?",
+                options: ["Cơ sở hạ tầng dưới dạng dịch vụ", "Nền tảng dưới dạng dịch vụ", "Phần mềm dưới dạng dịch vụ", "Internet dưới dạng dịch vụ"],
+                correctAnswer: "Cơ sở hạ tầng dưới dạng dịch vụ",
+                source: [79]
+            },
+            {
+                question: "Mô hình Điện toán đám mây PaaS?",
+                options: ["Cơ sở hạ tầng dưới dạng dịch vụ", "Nền tảng dưới dạng dịch vụ", "Phần mềm dưới dạng dịch vụ", "Internet dưới dạng dịch vụ"],
+                correctAnswer: "Nền tảng dưới dạng dịch vụ",
+                source: [80]
+            },
+            {
+                question: "Mô hình Điện toán đám mây SaaS?",
+                options: ["Cơ sở hạ tầng dưới dạng dịch vụ", "Nền tảng dưới dạng dịch vụ", "Phần mềm dưới dạng dịch vụ", "Internet dưới dạng dịch vụ"],
+                correctAnswer: "Phần mềm dưới dạng dịch vụ",
+                source: [81, 82]
+            },
+            {
+                question: "Lợi ích của Cloud Computing với Big Data là?",
+                options: ["Triển khai hạ tầng nhanh chóng", "Phân tích theo thời gian thực", "Tối ưu chi phí duy trì hoạt động", "Tất cả"],
+                correctAnswer: "Tất cả",
+                source: [83]
+            },
+            {
+                question: "Lợi ích vượt trội của Cloud Computing với Big Data là?",
+                options: ["Hạn chế đầu tư máy móc", "Phân tích theo thời gian thực", "Tối ưu chi phí duy trì hoạt động", "Tất cả"],
+                correctAnswer: "Phân tích theo thời gian thực",
+                source: [84]
+            },
+            {
+                question: "Dịch vụ lưu trữ dữ của Amazon - AWS là?",
+                options: ["Amazon S3", "Amazon RDS", "Amazon Lambda", "EC2"],
+                correctAnswer: "Amazon S3",
+                source: [85]
+            },
+            {
+                question: "Dịch vụ lưu trữ của Microsoft Azure là?",
+                options: ["Virtual Machines", "Azure Function", "Azure Disk Storage", "Azure Cosmos DB"],
+                correctAnswer: "Azure Disk Storage",
+                source: [86]
+            },
+            {
+                question: "Dịch vụ lưu trữ của Google Cloud Platfom là?",
+                options: ["Google Driver", "Goolge Functions", "Google Cloud Storage", "Google Cloud Datastore"],
+                correctAnswer: "Google Cloud Storage",
+                source: [87]
+            },
+            {
+                question: "Đám mây AWS cung cấp dịch vụ NoSQL Database",
+                options: ["Amazon RDS", "Amazon EC2", "Amazon DynamoDB", "Amazon Container Service"],
+                correctAnswer: "Amazon DynamoDB",
+                source: [88]
+            },
+            {
+                question: "Đám mây Microsoft Azure cung cấp dịch vụ NoSQL Database",
+                options: ["Table Storage", "SQL DB", "Azure Functions", "Cloud Service"],
+                correctAnswer: "Table Storage",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Dịch vụ tích hợp dữ liệu trên đám mây trên Google Cloud Platform",
+                options: ["Google Cloud Dataprep", "Google Cloud Data Fusion", "Google Data Catalog", "Google BigQuery"],
+                correctAnswer: "Google Cloud Data Fusion",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Dịch vụ thông minh giúp khái phá, làm sạch dữ liệu trên Google Cloud Platform",
+                options: ["Goolge Functions", "Google BigQuery", "Google Cloud Dataprep", "Google Data Catalog"],
+                correctAnswer: "Google Cloud Dataprep",
+                source: [89]
+            },
+            {
+                question: "Trên Google Cloud Platform dịch vụ nào quản lý CSDL NoQuery",
+                options: ["Google Cloud Dataprep", "Google Data Catalog", "Google BigQuery", "Cloud Bigtable"],
+                correctAnswer: "Cloud Bigtable",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Trên Google Cloud Platform dịch vụ nào quản lý danh mục dữ liệu",
+                options: ["Google Data Catalog", "Google Cloud Dataprep", "Google Data Catalog", "Google BigQuery"],
+                correctAnswer: "Google Data Catalog",
+                source: [90]
+            },
+            {
+                question: "Trên Google Cloud Platform dịch vụ phân tích dữ liệu được cung cấp",
+                options: ["Google Data Catalog", "Google BigQuery", "Google Cloud Dataprep", "Goolge Functions"],
+                correctAnswer: "Google BigQuery",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Nền tảng Cloudera hỗ trợ hệ CSDL quan hệ nào?",
+                options: ["MySQL", "Oracle", "PostgreSQL", "Tất cả"],
+                correctAnswer: "Tất cả",
+                source: [91]
+            },
+            {
+                question: "Hệ CSDL NoSQL trên nền tảng Cloudera là?",
+                options: ["Apache Accumulo", "DynamoDB", "AppEngine Datastore", "Table Storage"],
+                correctAnswer: "Apache Accumulo",
+                source: [92]
+            },
+            {
+                question: "Dịch vụ phân tích dữ liệu lớn Cloudera cung cấp là?",
+                options: ["Hadoop", "BigQuery", "Elastic MapReduce", "Không có"],
+                correctAnswer: "Elastic MapReduce",
+                source: [93]
+            },
+            {
+                question: "Cloudera Enterprise có thể được triển khai trên đám mây nào",
+                options: ["Google Cloud", "Amazon AWS", "Tất cả", "Microsoft Azure"],
+                correctAnswer: "Tất cả",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Công cụ trên Google Cloud Platform chuyển đổi dữ liệu hỗ trợ quyết định",
+                options: ["Google Cloud", "Google Data Catalog", "Google Data Studio", "Goolge Functions"],
+                correctAnswer: "Google Data Studio",
+                source: [94]
+            },
+            {
+                question: "Mô hình chính dành cho Điện toán đám mây?",
+                options: ["Cơ sở hạ tầng dưới dạng dịch vụ (IaaS)", "Tất cả", "Nền tảng dưới dạng dịch vụ (PaaS)", "Phần mềm dưới dạng dịch vụ (SaaS)"],
+                correctAnswer: "Tất cả",
+                source: [95]
+            },
+            {
+                question: "Kiểu phân tích dữ liệu nào cho ta biết điều gì đã xảy ra?",
+                options: ["Descriptive Analysis", "Diagnostic Analysis", "Predictive Analysis", "Prescriptive Analysis"],
+                correctAnswer: "Descriptive Analysis",
+                source: [96]
+            },
+            {
+                question: "Kiểu phân tích dữ liệu nào chuẩn đoán lý do cho kết quả?",
+                options: ["Descriptive Analysis", "Diagnostic Analysis", "Predictive Analysis", "Prescriptive Analysis"],
+                correctAnswer: "Diagnostic Analysis",
+                source: [97]
+            },
+            {
+                question: "Kiểu phân tích dữ liệu nào dự đoán điều sẽ xảy ra?",
+                options: ["Descriptive Analysis", "Diagnostic Analysis", "Predictive Analysis", "Prescriptive Analysis"],
+                correctAnswer: "Predictive Analysis",
+                source: [98]
+            },
+            {
+                question: "Kiểu phân tích nào để hỗ trợ đưa ra quyết định?",
+                options: ["Descriptive Analysis", "Diagnostic Analysis", "Predictive Analysis", "Prescriptive Analysis"],
+                correctAnswer: "Prescriptive Analysis",
+                source: [99]
+            },
+            {
+                question: "Loại phân tích dữ liệu nào kết quả thu được cho ta biết điều gì đã xảy ra?",
+                options: ["Phân tích mô tả", "Phân tích chuẩn đoán", "Phân tích dự đoán", "Phân tích đề xuất"],
+                correctAnswer: "Phân tích mô tả",
+                source: [100, 101]
+            },
+            {
+                question: "Loại phân tích dữ liệu nào kết quả thu được cho ta biết tại sao điều đó xảy ra?",
+                options: ["Phân tích mô tả", "Phân tích chuẩn đoán", "Phân tích dự đoán", "Phân tích đề xuất"],
+                correctAnswer: "Phân tích chuẩn đoán",
+                source: [102]
+            },
+            {
+                question: "Loại phân tích dữ liệu nào kết quả thu được cho ta biết điều gì sẽ xảy ra?",
+                options: ["Phân tích mô tả", "Phân tích chuẩn đoán", "Phân tích dự đoán", "Phân tích đề xuất"],
+                correctAnswer: "Phân tích dự đoán",
+                source: [103]
+            },
+            {
+                question: "Loại phân tích dữ liệu nào kết quả thu được cho ta biết làm thể nào để nó xảy ra",
+                options: ["Phân tích mô tả", "Phân tích chuẩn đoán", "Phân tích dự đoán", "Phân tích đề xuất"],
+                correctAnswer: "Phân tích đề xuất",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Mục tiêu đúng nhất của phân tích dữ liệu lớn là gì?",
+                options: ["Biến dữ liệu thành thông tin chi tiết hữu ích", "Sắp xếp dữ liệu có ích để sử dụng", "Tạo ra các dữ liệu phù hợp nhất với hệ thống", "Xây dựng hệ thống để quản lý dữ liệu lớn"],
+                correctAnswer: "Biến dữ liệu thành thông tin chi tiết hữu ích",
+                source: [104]
+            },
+            {
+                question: "Hoạt động của Map Reduce bao gồm:",
+                options: ["Trộn & sắp xếp - Map - Reduce", "Map - Trộn & sắp xếp – Reduce", "Reduce - Map - Trộn & sắp xếp", "Sắp xếp - Trộn & Map – Reduce"],
+                correctAnswer: "Map - Trộn & sắp xếp – Reduce",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Phân tích chuẩn đoán sử dụng kỹ thuật nào?",
+                options: ["Lấy mẫu dữ liệu", "Tương quan phân bổ", "Thu tập dữ liệu", "Khai phá dữ liệu"],
+                correctAnswer: "Khai phá dữ liệu",
+                source: [105, 106]
+            },
+            {
+                question: "Phân tích chuẩn đoán sử dụng kỹ thuật nào?",
+                options: ["Lấy mẫu mô tả", "Tương quan phân bổ", "Khôi phục dữ liệu", "Thu tập dữ liệu"],
+                correctAnswer: "Khôi phục dữ liệu",
+                source: [107]
+            },
+            {
+                question: "Phân tích mô tả không phù hợp sử dụng để?",
+                options: ["Xây dựng các báo cáo", "Lập bảng số liệu truyền thông", "Mô hình hoá dữ liệu quá khứ", "Phân tích tương quan"],
+                correctAnswer: "Phân tích tương quan",
+                source: [108]
+            },
+            {
+                question: "Đâu là phân tích chuẩn đoán?",
+                options: ["Mô tả tương quan dữ liệu", "Cung cấp cái nhinh sâu sắc về vấn đề", "Phân tích sự bất thường từ dữ liệu lưu trữ", "Mô hình hoá dữ liệu theo điều kiện"],
+                correctAnswer: "Cung cấp cái nhinh sâu sắc về vấn đề",
+                source: [109]
+            },
+            {
+                question: "Trong MapReduce loại nào sau đây theo dõi quá trình tiêu thụ tài nguyên trên Cluster Node?",
+                options: ["Name node", "Master node", "Single Master", "Slave node"],
+                correctAnswer: "Master node",
+                source: [110]
+            },
+            {
+                question: "Trong MapReduce loại nào sau đây thực thi các tác vụ và cung cấp thông tin trạng thai tác vụ?",
+                options: ["Name node", "Master node", "Single Master", "Slave node"],
+                correctAnswer: "Slave node",
+                source: [111]
+            },
+            {
+                question: "Trong MapReduce loại nào sau đây được cung cấp task-status?",
+                options: ["Name node", "JobTracker", "Single Master", "Slave node"],
+                correctAnswer: "JobTracker",
+                source: [112]
+            },
+            {
+                question: "Mô hình MapReduce có thể chạy trên số lượng máy chủ?",
+                options: ["Vài máy", "Hàng nghìn máy", "Hàng trăm máy", "Một máy chủ Master"],
+                correctAnswer: "Hàng nghìn máy",
+                source: [113]
+            },
+            {
+                question: "Mô hình MapReduce thuộc lớp nào?",
+                options: ["Lớp lưu trữ dữ liệu", "Lớp thu thập dữ liệu", "Lớp xử lý dữ liệu", "Lớp phân tích dữ liệu"],
+                correctAnswer: "Lớp xử lý dữ liệu",
+                source: [114]
+            },
+            {
+                question: "Lợi ích từ Phân tích dữ liệu lớn là?",
+                options: ["Tất cả", "Ra quyết định nhanh hơn, tốt hơn", "Giảm chi phí và tăng hiệu quả hoạt động", "Cải tiến theo định hướng dữ liệu cho thị trường"],
+                correctAnswer: "Tất cả",
+                source: [115]
+            },
+            {
+                question: "Các ứng dụng phân tích dữ liệu lớn cho Lĩnh vực bán lẻ",
+                options: ["Dự đoán hành vi mua sắm của khách hàng", "Xây dựng mô hình chi tiêu cho từng khách hàng", "Phân tích hành trình của khách hàng", "Tất cả"],
+                correctAnswer: "Tất cả",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Ứng dụng phân tích dữ liệu lớn hỗ trợ ngành Y tế",
+                options: ["Tăng việc khai thác tối ưu hoá máy móc", "Tăng doanh thu từ phần mềm y tế", "Tăng tinh chính xác của chẩn đoán", "Tất cả"],
+                correctAnswer: "Tăng tinh chính xác của chẩn đoán",
+                source: [116]
+            },
+            {
+                question: "Trong kiến trúc Apache Hadoop HDFS thuộc",
+                options: ["Lớp lưu trữ", "Lớp truyền tải", "Lớp quản lý tài nguyên", "Lớp xử lý dữ liệu"],
+                correctAnswer: "Lớp lưu trữ",
+                source: [117]
+            },
+            {
+                question: "Trong kiến trúc Apache Hadoop YARN là",
+                options: ["Lớp lưu trữ", "Lớp truyền tải", "Lớp quản lý tài nguyên", "Lớp xử lý dữ liệu"],
+                correctAnswer: "Lớp quản lý tài nguyên",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Trong kiến trúc Apache Hadoop MapReduce là",
+                options: ["Lớp lưu trữ", "Lớp truyền tải", "Lớp quản lý tài nguyên", "Lớp xử lý dữ liệu"],
+                correctAnswer: "Lớp xử lý dữ liệu",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Kiến trúc Hadoop hỗ trợ những ngôn ngữ nào",
+                options: ["Java", "Tất cả", "C++", "Python"],
+                correctAnswer: "Tất cả",
+                source: [118]
+            },
+            {
+                question: "Spark được Apache Software Foundation phát triển từ năm nào",
+                options: ["1993", "2013", "2009", "2007"],
+                correctAnswer: "2013",
+                source: [119]
+            },
+            {
+                question: "Apache Kafka là công cụ hỗ trợ?",
+                options: ["Xử lý phân tán", "Lưu trữ phân tán", "Hệ quản trị CSDL", "Thu tập dữ liệu"],
+                correctAnswer: "Xử lý phân tán",
+                source: [120, 121]
+            },
+            {
+                question: "Apache Storm là công cụ hỗ trợ?",
+                options: ["Xử lý phân tán", "Lưu trữ phân tán", "Phân tích dữ liệu", "Thu tập dữ liệu"],
+                correctAnswer: "Phân tích dữ liệu",
+                source: [122]
+            },
+            {
+                question: "Đâu không phải là chế độ hoạt động của Hadoop?",
+                options: ["Chế độ phân phối giả", "Chế độ phân phối toàn cầu", "Chế độ độc lập", "Chế độ phân phối hoàn toàn"],
+                correctAnswer: "Chế độ phân phối toàn cầu",
+                source: [123]
+            },
+            {
+                question: "Các tệp HDFS được thiết kế cho",
+                options: ["Nhiều người viết và sửa đổi ở các hiệu số tùy ý.", "Chỉ nối vào cuối tệp", "Chỉ ghi thành tệp một lần.", "Truy cập dữ liệu có độ trễ thấp."],
+                correctAnswer: "Chỉ nối vào cuối tệp",
+                source: [124, 125, 126, 127]
+            },
+            {
+                question: "Tính năng định vị dữ liệu trong Hadoop có nghĩa là",
+                options: ["Lưu trữ cùng một dữ liệu trên nhiều nút.", "Chuyển vị trí dữ liệu từ nút này sang nút khác.", "Đồng định vị dữ liệu với các nút tính toán.", "Phân phối dữ liệu trên nhiều nút."],
+                correctAnswer: "Đồng định vị dữ liệu với các nút tính toán.",
+                source: [128, 129, 130]
+            },
+            {
+                question: "Khó khăn khi đọc và ghi dữ liệu song song từ nhiều nguồn là gì?",
+                options: ["Xử lý khối lượng lớn dữ liệu nhanh hơn.", "Kết hợp dữ liệu từ nhiều nguồn.", "Phần mềm cần thiết để thực hiện nhiệm vụ này là cực kỳ tốn kém.", "Phần cứng cần thiết để thực hiện tác vụ này là cực kỳ tốn kém."],
+                correctAnswer: "Kết hợp dữ liệu từ nhiều nguồn.",
+                source: [131, 132, 133, 134]
+            },
+            {
+                question: "So với RDBMS, Hadoop",
+                options: ["Có tính toàn vẹn dữ liệu cao hơn.", "Có giao dịch ACID không", "Nó thích hợp để đọc và viết nhiều lần", "Hoạt động tốt hơn trên dữ liệu phi cấu trúc và bán cấu trúc."],
+                correctAnswer: "Hoạt động tốt hơn trên dữ liệu phi cấu trúc và bán cấu trúc.",
+                source: [135, 136]
+            },
+            {
+                question: "Yếu tố giới hạn hiện tại đối với kích thước của một cụm hadoop là",
+                options: ["Nhiệt lượng dư thừa tạo ra trong trung tâm dữ liệu", "Giới hạn trên của băng thông mạng", "Giới hạn trên của RAM trong NameNode", "4000 datanode"],
+                correctAnswer: "Giới hạn trên của RAM trong NameNode",
+                source: [137]
+            },
+            {
+                question: "Trong HDFS, các tệp không thể",
+                options: ["Đọc", "Xoá", "Thực thi", "Lưu trữ"],
+                correctAnswer: "Thực thi",
+                source: [] // No specific source for this question's answer within the provided text.
+            },
+            {
+                question: "Điều nào sau đây không phải là mục tiêu của HDFS?",
+                options: ["Phát hiện lỗi và khôi phục", "Xử lý tập dữ liệu khổng lồ", "Ngăn chặn việc xóa dữ liệu", "Cung cấp băng thông mạng cao để di chuyển dữ liệu"],
+                correctAnswer: "Ngăn chặn việc xóa dữ liệu",
+                source: [138]
+            },
+            {
+                question: "YARN là viết tắt của",
+                options: ["Yahoo's another resource name", "Yet another resource negotiator", "Yahoo's archived Resource names", "Yet another resource need."],
+                correctAnswer: "Yet another resource negotiator",
+                source: [139]
+            },
+            {
+                question: "Kiến trúc HDFS trong Hadoop có nguồn gốc là",
+                options: ["Hệ thống tệp phân phối của Google", "Hệ thống tệp phân tán của Yahoo", "Hệ thống tệp phân tán của Facebook", "Hệ thống tệp phân tán của Azure"],
+                correctAnswer: "Hệ thống tệp phân phối của Google",
+                source: [140]
             }
-        });
-        
-        // Sự kiện click nút phân tích PDF
-        parseBtn.addEventListener('click', async () => {
-            if (!pdfFileInput.files.length) {
-                alert('Vui lòng chọn file PDF');
-                return;
-            }
-            
-            const file = pdfFileInput.files[0];
-            const fileReader = new FileReader();
-            
-            // Hiển thị loading
-            quizControls.style.display = 'none';
-            timerContainer.style.display = 'none';
-            quizContent.style.display = 'none';
-            progressContainer.style.display = 'none';
-            resultsContainer.style.display = 'none';
-            loadingIndicator.style.display = 'block';
-            
-            fileReader.onload = async function() {
-                try {
-                    const typedArray = new Uint8Array(this.result);
-                    const pdf = await pdfjsLib.getDocument(typedArray).promise;
-                    
-                    let fullText = '';
-                    
-                    // Đọc tất cả các trang
-                    for (let i = 1; i <= pdf.numPages; i++) {
-                        const page = await pdf.getPage(i);
-                        const textContent = await page.getTextContent();
-                        const text = textContent.items.map(item => item.str).join('\n');
-                        fullText += text + '\n';
-                    }
-                    
-                    // Xử lý văn bản để trích xuất câu hỏi
-                    processText(fullText);
-                    
-                    // Hiển thị câu hỏi đầu tiên
-                    if (questions.length > 0) {
-                        currentQuestionIndex = 0;
-                        correctAnswers = 0;
-                        incorrectAnswers = 0;
-                        
-                        // Hiển thị giao diện quiz
-                        loadingIndicator.style.display = 'none';
-                        quizControls.style.display = 'flex';
-                        timerContainer.style.display = 'block';
-                        quizContent.style.display = 'block';
-                        progressContainer.style.display = 'flex';
-                        resultsContainer.style.display = 'none';
-                        
-                        displayQuestion();
-                    } else {
-                        loadingIndicator.style.display = 'none';
-                        alert('Không tìm thấy câu hỏi trong file PDF. Vui lòng kiểm tra lại định dạng file.');
-                    }
-                } catch (error) {
-                    console.error('Lỗi khi phân tích PDF:', error);
-                    loadingIndicator.style.display = 'none';
-                    alert('Đã xảy ra lỗi khi phân tích PDF: ' + error.message);
-                }
-            };
-            
-            fileReader.readAsArrayBuffer(file);
-        });
-        
-        // Xử lý văn bản để trích xuất câu hỏi (đã cải tiến)
-        function processText(text) {
-            questions = [];
-            
-            // Tách các câu hỏi dựa trên mẫu "Câu X:" hoặc "Câu X: (1 đáp án)"
-            const questionRegex = /Câu\s*(\d+):\s*(?:\(1 đáp án\)\s*)?([^]*?)(?=\n\s*Câu\s*\d+:|$)/g;
-            
-            let match;
-            while ((match = questionRegex.exec(text)) !== null) {
-                const questionNumber = parseInt(match[1]);
-                let questionContent = match[2].trim();
-               
-                // Tách phần câu hỏi và các lựa chọn
-                const lines = questionContent.split('\n').filter(line => line.trim() !== '');
-                
-                if (lines.length < 2) continue; // Ít nhất phải có câu hỏi và 1 đáp án
-                
-                const questionText = lines[0].trim();
-                const options = [];
-                let correctOptionIndex = -1;
-                
-                // Xử lý các lựa chọn
-                for (let j = 1; j < lines.length; j++) {
-                    const line = lines[j].trim();
-                    
-                    // Kiểm tra xem có phải là lựa chọn không (bắt đầu bằng •, *, - hoặc chữ cái)
-                    const optionMatch = line.match(/^([•*\-]|\d+\.|\w\.)\s*(.*)/);
-                    if (optionMatch) {
-                        const isCorrect = line.startsWith('*');
-                        const optionText = optionMatch[2].trim();
-                        let optionLetter = optionMatch[1].replace(/[•*\-]/g, '').replace('.', '').trim();
-                        
-                        // Nếu không có ký tự (chỉ có • hoặc *), gán A, B, C, D
-                        if (!optionLetter && options.length < 4) {
-                            optionLetter = String.fromCharCode(65 + options.length);
-                        }
-                        
-                        if (optionText) {
-                            options.push({
-                                letter: optionLetter,
-                                text: optionText,
-                                correct: isCorrect
-                            });
-                            
-                            if (isCorrect) {
-                                correctOptionIndex = options.length - 1;
-                            }
-                        }
-                    }
-                }
-                
-                if (options.length > 0 && correctOptionIndex !== -1) {
-                    questions.push({
-                        number: questionNumber,
-                        text: questionText,
-                        options: options,
-                        correctOptionIndex: correctOptionIndex,
-                        userAnswer: null,
-                        isCorrect: null
-                    });
-                }
-            }
-            
-            // Cập nhật tổng số câu hỏi
-            totalQuestionsSpan.textContent = questions.length;
-            updateProgress();
-        }
-        
-        // Hiển thị câu hỏi hiện tại
-        function displayQuestion() {
-            if (questions.length === 0) return;
-            
-            const question = questions[currentQuestionIndex];
-            
-            // Hiển thị số câu hỏi hiện tại
-            currentQuestionSpan.textContent = currentQuestionIndex + 1;
-            updateProgress();
-            
-            // Hiển thị nội dung câu hỏi
-            questionText.textContent = `${question.number}. ${question.text}`;
-            
-            // Tạo bản sao của các lựa chọn để đảo nếu cần
-            let optionsToDisplay = [...question.options];
-            
-            // Đảo thứ tự các lựa chọn nếu được chọn
-            if (shuffleOptionsCheckbox.checked) {
-                shuffleArray(optionsToDisplay);
-                
-                // Cập nhật chỉ số đáp án đúng sau khi đảo
-                const originalCorrectOption = question.options[question.correctOptionIndex];
-                question.correctOptionIndex = optionsToDisplay.findIndex(opt => 
-                    opt.letter === originalCorrectOption.letter && 
-                    opt.text === originalCorrectOption.text
-                );
-            }
-            
-            // Hiển thị các lựa chọn
-            optionsContainer.innerHTML = '';
-            optionsToDisplay.forEach((option, index) => {
-                const optionElement = document.createElement('div');
-                optionElement.className = 'option';
-                optionElement.innerHTML = `
-                    <div class="option-radio"></div>
-                    <strong>${option.letter}.</strong> ${option.text}
-                `;
-                
-                // Đánh dấu nếu đã chọn
-                if (question.userAnswer !== null && index === question.userAnswer) {
-                    optionElement.classList.add('selected');
-                    
-                    // Hiển thị kết quả nếu đã trả lời
-                    if (question.isCorrect !== null) {
-                        optionElement.classList.add(question.isCorrect ? 'correct' : 'incorrect');
-                    }
-                }
-                
-                // Đánh dấu đáp án đúng nếu đã trả lời sai
-                if (question.userAnswer !== null && !question.isCorrect && index === question.correctOptionIndex) {
-                    optionElement.classList.add('correct');
-                }
-                
-                optionElement.addEventListener('click', () => selectOption(index));
-                optionsContainer.appendChild(optionElement);
-            });
-            
-            // Hiển thị phản hồi nếu đã trả lời
-            feedbackContainer.style.display = 'none';
-            feedbackContainer.className = 'feedback';
-            
-            if (question.userAnswer !== null && showFeedbackCheckbox.checked) {
-                feedbackContainer.style.display = 'block';
-                
-                if (question.isCorrect) {
-                    feedbackContainer.textContent = 'Chính xác!';
-                    feedbackContainer.classList.add('correct-feedback');
-                } else {
-                    const correctOption = optionsToDisplay[question.correctOptionIndex];
-                    feedbackContainer.textContent = `Sai rồi! Đáp án đúng là ${correctOption.letter}. ${correctOption.text}`;
-                    feedbackContainer.classList.add('incorrect-feedback');
-                }
-            }
-            
-            // Cập nhật trạng thái nút
-            prevBtn.disabled = currentQuestionIndex === 0;
-            nextBtn.disabled = currentQuestionIndex === questions.length - 1;
-            
-            // Reset timer nếu autoNext được bật
-            if (autoNextCheckbox.checked && question.userAnswer === null) {
-                startCountdown();
-            } else {
-                clearInterval(timer);
-                timerContainer.style.display = 'none';
-            }
-        }
-        
-        // Cập nhật thanh tiến trình
-        function updateProgress() {
-            const progressPercent = (currentQuestionIndex + 1) / questions.length * 100;
-            progressFill.style.width = `${progressPercent}%`;
-        }
-        
-        // Chọn một đáp án
-        function selectOption(optionIndex) {
-            const question = questions[currentQuestionIndex];
-            
-            // Nếu đã trả lời thì không làm gì
-            if (question.userAnswer !== null) return;
-            
-            // Đánh dấu đáp án đã chọn
-            question.userAnswer = optionIndex;
-            question.isCorrect = optionIndex === question.correctOptionIndex;
-            
-            // Cập nhật số câu đúng/sai
-            if (question.isCorrect) {
-                correctAnswers++;
-            } else {
-                incorrectAnswers++;
-            }
-            
-            // Hiển thị lại câu hỏi với phản hồi
-            displayQuestion();
-            
-            // Cập nhật kết quả
-            updateResults();
-            
-            // Tự động chuyển câu hỏi nếu được bật
-            if (autoNextCheckbox.checked && currentQuestionIndex < questions.length - 1) {
-                startCountdown();
-            }
-        }
-        
-        // Bắt đầu đếm ngược để chuyển câu hỏi
-        function startCountdown() {
-            clearInterval(timer);
-            countdownValue = 3;
-            countdownSpan.textContent = countdownValue;
-            timerContainer.style.display = 'block';
-            
-            timer = setInterval(() => {
-                countdownValue--;
-                countdownSpan.textContent = countdownValue;
-                
-                if (countdownValue <= 0) {
-                    clearInterval(timer);
-                    nextQuestion();
-                }
-            }, 1000);
-        }
-        
-        // Chuyển đến câu hỏi tiếp theo
-        function nextQuestion() {
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                displayQuestion();
-            } else {
-                // Đã hoàn thành tất cả câu hỏi
-                showFinalResults();
-            }
-        }
-        
-        // Quay lại câu hỏi trước đó
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion();
-            }
-        }
-        
-        // Hiển thị kết quả cuối cùng
-        function showFinalResults() {
-            resultsContainer.style.display = 'block';
-            updateResults();
-        }
-        
-        // Cập nhật kết quả tổng thể
-        function updateResults() {
-            correctCountSpan.textContent = correctAnswers;
-            incorrectCountSpan.textContent = incorrectAnswers;
-            
-            const totalAnswered = correctAnswers + incorrectAnswers;
-            const score = totalAnswered > 0 ? Math.round((correctAnswers / totalAnswered) * 100) : 0;
-            scoreSpan.textContent = `${score}%`;
-        }
-        
-        // Đảo thứ tự mảng
+        ];
+
+        let currentQuizData = [];
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
             }
-            return array;
         }
-        
-        // Sự kiện nút điều hướng
-        nextBtn.addEventListener('click', () => {
-            clearInterval(timer);
-            nextQuestion();
-        });
-        
-        prevBtn.addEventListener('click', () => {
-            clearInterval(timer);
-            prevQuestion();
-        });
-        
-        // Sự kiện đảo câu hỏi
-        shuffleQuestionsCheckbox.addEventListener('change', () => {
-            if (shuffleQuestionsCheckbox.checked && questions.length > 0) {
-                // Đảo thứ tự câu hỏi nhưng lưu lại số câu hỏi gốc
-                shuffleArray(questions);
-                currentQuestionIndex = 0;
-                displayQuestion();
-            }
-        });
-        
-        // Sự kiện thay đổi autoNext
-        autoNextCheckbox.addEventListener('change', () => {
-            if (autoNextCheckbox.checked && 
-                questions.length > 0 && 
-                questions[currentQuestionIndex].userAnswer === null) {
-                startCountdown();
+
+        function loadQuiz() {
+            currentQuizData = [...quizData]; // Create a copy to shuffle
+            shuffleArray(currentQuizData);
+
+            const quizForm = document.getElementById('quizForm');
+            quizForm.innerHTML = ''; // Clear previous questions
+
+            currentQuizData.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('quiz-section');
+                questionDiv.innerHTML = `<h3>Câu ${index + 1}: ${q.question}</h3>`;
+
+                const optionsDiv = document.createElement('div');
+                optionsDiv.classList.add('options');
+
+                let shuffledOptions = [...q.options];
+                shuffleArray(shuffledOptions); // Shuffle options for each question
+
+                shuffledOptions.forEach((option, optionIndex) => {
+                    const label = document.createElement('label');
+                    label.innerHTML = `
+                        <input type="radio" name="question${index}" value="${option}" onchange="checkAnswer(${index}, this.value)">
+                        ${option}
+                    `;
+                    optionsDiv.appendChild(label);
+                });
+
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.classList.add('feedback');
+                feedbackDiv.id = `feedback${index}`;
+
+                questionDiv.appendChild(optionsDiv);
+                questionDiv.appendChild(feedbackDiv);
+                quizForm.appendChild(questionDiv);
+            });
+        }
+
+        function checkAnswer(questionIndex, selectedValue) {
+            const questionData = currentQuizData[questionIndex];
+            const feedbackElement = document.getElementById(`feedback${questionIndex}`);
+            
+            // Disable all radio buttons for this question after an answer is selected
+            const radios = document.getElementsByName(`question${questionIndex}`);
+            radios.forEach(radio => {
+                radio.disabled = true;
+            });
+
+            if (selectedValue === questionData.correctAnswer) {
+                feedbackElement.textContent = 'Chính xác!';
+                feedbackElement.classList.remove('incorrect');
+                feedbackElement.classList.add('correct');
             } else {
-                clearInterval(timer);
-                timerContainer.style.display = 'none';
+                feedbackElement.textContent = `Sai rồi! Đáp án đúng là: ${questionData.correctAnswer}`;
+                feedbackElement.classList.remove('correct');
+                feedbackElement.classList.add('incorrect');
             }
-        });
+        }
+
+        function shuffleQuestions() {
+            loadQuiz();
+            window.scrollTo(0, 0); // Scroll to top after shuffling
+        }
+
+        function resetQuiz() {
+            loadQuiz();
+            window.scrollTo(0, 0); // Scroll to top after resetting
+        }
+
+        // Load quiz when the page loads
+        document.addEventListener('DOMContentLoaded', loadQuiz);
     </script>
 </body>
 </html>
- 
