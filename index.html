@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduQuiz - Ôn Thi Trắc Nghiệm</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .upload-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #eaf2f8;
+            border-radius: 5px;
+        }
+        
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .control-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        button, input[type="file"] {
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        
+        input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .quiz-container {
+            margin-top: 20px;
+        }
+        
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .options {
+            margin-left: 20px;
+        }
+        
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .option.selected {
+            background-color: #d4e6f1;
+        }
+        
+        .option.correct {
+            background-color: #d5f5e3;
+        }
+        
+        .option.incorrect {
+            background-color: #fadbd8;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct-feedback {
+            background-color: #d5f5e3;
+            color: #27ae60;
+        }
+        
+        .incorrect-feedback {
+            background-color: #fadbd8;
+            color: #e74c3c;
+        }
+        
+        .progress {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .timer {
+            text-align: center;
+            font-size: 16px;
+            margin: 10px 0;
+            color: #2c3e50;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #eaf2f8;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 600px) {
+            .quiz-controls {
+                flex-direction: column;
+            }
+            
+            .control-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>EduQuiz - Ôn Thi Trắc Nghiệm</h1>
+        
+        <div class="upload-section">
+            <h2>Tải lên đề thi</h2>
+            <input type="file" id="pdfFile" accept=".pdf">
+            <button id="parseBtn">Phân tích đề thi</button>
+        </div>
+        
+        <div class="quiz-controls">
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="shuffleQuestions"> Đảo câu hỏi
+                </label>
+                <label>
+                    <input type="checkbox" id="shuffleOptions"> Đảo đáp án
+                </label>
+            </div>
+            
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="autoNext" checked> Tự động chuyển câu
+                </label>
+                <label>
+                    <input type="checkbox" id="showFeedback" checked> Hiển thị kết quả
+                </label>
+            </div>
+            
+            <div class="control-group">
+                <button id="prevBtn">Câu trước</button>
+                <button id="nextBtn">Câu tiếp</button>
+            </div>
+        </div>
+        
+        <div class="timer">
+            Thời gian chuyển câu: <span id="countdown">3</span> giây
+        </div>
+        
+        <div class="quiz-container">
+            <div class="question" id="questionText"></div>
+            <div class="options" id="optionsContainer"></div>
+            <div class="feedback" id="feedbackContainer"></div>
+        </div>
+        
+        <div class="progress">
+            Câu <span id="currentQuestion">0</span>/<span id="totalQuestions">0</span>
+        </div>
+        
+        <div class="results" id="resultsContainer">
+            <h2>Kết quả bài làm</h2>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="correctCount">0</div>
+                    <div class="stat-label">Đúng</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="incorrectCount">0</div>
+                    <div class="stat-label">Sai</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="score">0%</div>
+                    <div class="stat-label">Tổng điểm</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script>
+        // Thiết lập worker path cho PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+        
+        // Biến toàn cục
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+        let timer;
+        let countdownValue = 3;
+        
+        // DOM Elements
+        const pdfFileInput = document.getElementById('pdfFile');
+        const parseBtn = document.getElementById('parseBtn');
+        const shuffleQuestionsCheckbox = document.getElementById('shuffleQuestions');
+        const shuffleOptionsCheckbox = document.getElementById('shuffleOptions');
+        const autoNextCheckbox = document.getElementById('autoNext');
+        const showFeedbackCheckbox = document.getElementById('showFeedback');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedbackContainer = document.getElementById('feedbackContainer');
+        const currentQuestionSpan = document.getElementById('currentQuestion');
+        const totalQuestionsSpan = document.getElementById('totalQuestions');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const correctCountSpan = document.getElementById('correctCount');
+        const incorrectCountSpan = document.getElementById('incorrectCount');
+        const scoreSpan = document.getElementById('score');
+        const countdownSpan = document.getElementById('countdown');
+        
+        // Sự kiện click nút phân tích PDF
+        parseBtn.addEventListener('click', async () => {
+            if (!pdfFileInput.files.length) {
+                alert('Vui lòng chọn file PDF');
+                return;
+            }
+            
+            const file = pdfFileInput.files[0];
+            const fileReader = new FileReader();
+            
+            fileReader.onload = async function() {
+                try {
+                    const typedArray = new Uint8Array(this.result);
+                    const pdf = await pdfjsLib.getDocument(typedArray).promise;
+                    
+                    let fullText = '';
+                    
+                    // Đọc tất cả các trang
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        const text = textContent.items.map(item => item.str).join(' ');
+                        fullText += text + '\n';
+                    }
+                    
+                    // Xử lý văn bản để trích xuất câu hỏi
+                    processText(fullText);
+                    
+                    // Hiển thị câu hỏi đầu tiên
+                    if (questions.length > 0) {
+                        currentQuestionIndex = 0;
+                        displayQuestion();
+                        resultsContainer.style.display = 'none';
+                    } else {
+                        alert('Không tìm thấy câu hỏi trong file PDF');
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi phân tích PDF:', error);
+                    alert('Đã xảy ra lỗi khi phân tích PDF');
+                }
+            };
+            
+            fileReader.readAsArrayBuffer(file);
+        });
+        
+        // Xử lý văn bản để trích xuất câu hỏi
+        function processText(text) {
+            // Xóa dòng "EduQuiz - Thi trắc nghiệm" nếu có
+            text = text.replace(/EduQuiz - Thi trắc nghiệm/g, '');
+            
+            // Tách các câu hỏi dựa trên mẫu "Câu X:"
+            const questionBlocks = text.split(/(Câu \d+:)/g);
+            
+            questions = [];
+            let currentQuestion = null;
+            
+            for (let i = 1; i < questionBlocks.length; i += 2) {
+                const questionHeader = questionBlocks[i].trim();
+                const questionContent = questionBlocks[i+1].trim();
+                
+                // Tách số câu hỏi
+                const questionNumberMatch = questionHeader.match(/Câu (\d+):/);
+                if (!questionNumberMatch) continue;
+                
+                // Tách nội dung câu hỏi và các lựa chọn
+                const lines = questionContent.split('\n').filter(line => line.trim() !== '');
+                
+                if (lines.length < 2) continue; // Ít nhất phải có câu hỏi và 1 đáp án
+                
+                const questionText = lines[0].trim();
+                const options = [];
+                let correctOptionIndex = -1;
+                
+                // Xử lý các lựa chọn
+                for (let j = 1; j < lines.length; j++) {
+                    const line = lines[j].trim();
+                    
+                    // Kiểm tra xem có phải là lựa chọn không (bắt đầu bằng • hoặc *)
+                    if (line.match(/^[•*]\s*[A-Za-z]\./)) {
+                        const isCorrect = line.startsWith('*');
+                        const optionText = line.replace(/^[•*]\s*[A-Za-z]\.\s*/, '').trim();
+                        const optionLetter = line.match(/[A-Za-z]\./)[0].replace('.', '');
+                        
+                        options.push({
+                            letter: optionLetter,
+                            text: optionText,
+                            correct: isCorrect
+                        });
+                        
+                        if (isCorrect) {
+                            correctOptionIndex = options.length - 1;
+                        }
+                    }
+                }
+                
+                if (options.length > 0 && correctOptionIndex !== -1) {
+                    questions.push({
+                        number: parseInt(questionNumberMatch[1]),
+                        text: questionText,
+                        options: options,
+                        correctOptionIndex: correctOptionIndex,
+                        userAnswer: null,
+                        isCorrect: null
+                    });
+                }
+            }
+            
+            // Cập nhật tổng số câu hỏi
+            totalQuestionsSpan.textContent = questions.length;
+        }
+        
+        // Hiển thị câu hỏi hiện tại
+        function displayQuestion() {
+            if (questions.length === 0) return;
+            
+            const question = questions[currentQuestionIndex];
+            
+            // Hiển thị số câu hỏi hiện tại
+            currentQuestionSpan.textContent = currentQuestionIndex + 1;
+            
+            // Hiển thị nội dung câu hỏi
+            questionText.textContent = `${question.number}. ${question.text}`;
+            
+            // Tạo bản sao của các lựa chọn để đảo nếu cần
+            let optionsToDisplay = [...question.options];
+            
+            // Đảo thứ tự các lựa chọn nếu được chọn
+            if (shuffleOptionsCheckbox.checked) {
+                shuffleArray(optionsToDisplay);
+                
+                // Cập nhật chỉ số đáp án đúng sau khi đảo
+                const originalCorrectOption = question.options[question.correctOptionIndex];
+                question.correctOptionIndex = optionsToDisplay.findIndex(opt => 
+                    opt.letter === originalCorrectOption.letter && 
+                    opt.text === originalCorrectOption.text
+                );
+            }
+            
+            // Hiển thị các lựa chọn
+            optionsContainer.innerHTML = '';
+            optionsToDisplay.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.innerHTML = `<strong>${option.letter}.</strong> ${option.text}`;
+                
+                // Đánh dấu nếu đã chọn
+                if (question.userAnswer !== null && index === question.userAnswer) {
+                    optionElement.classList.add('selected');
+                    
+                    // Hiển thị kết quả nếu đã trả lời
+                    if (question.isCorrect !== null) {
+                        optionElement.classList.add(question.isCorrect ? 'correct' : 'incorrect');
+                    }
+                }
+                
+                // Đánh dấu đáp án đúng nếu đã trả lời sai
+                if (question.userAnswer !== null && !question.isCorrect && index === question.correctOptionIndex) {
+                    optionElement.classList.add('correct');
+                }
+                
+                optionElement.addEventListener('click', () => selectOption(index));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Hiển thị phản hồi nếu đã trả lời
+            feedbackContainer.style.display = 'none';
+            feedbackContainer.className = 'feedback';
+            
+            if (question.userAnswer !== null && showFeedbackCheckbox.checked) {
+                feedbackContainer.style.display = 'block';
+                
+                if (question.isCorrect) {
+                    feedbackContainer.textContent = 'Chính xác!';
+                    feedbackContainer.classList.add('correct-feedback');
+                } else {
+                    const correctOption = optionsToDisplay[question.correctOptionIndex];
+                    feedbackContainer.textContent = `Sai rồi! Đáp án đúng là ${correctOption.letter}. ${correctOption.text}`;
+                    feedbackContainer.classList.add('incorrect-feedback');
+                }
+            }
+            
+            // Cập nhật trạng thái nút
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+        }
+        
+        // Chọn một đáp án
+        function selectOption(optionIndex) {
+            const question = questions[currentQuestionIndex];
+            
+            // Nếu đã trả lời thì không làm gì
+            if (question.userAnswer !== null) return;
+            
+            // Đánh dấu đáp án đã chọn
+            question.userAnswer = optionIndex;
+            question.isCorrect = optionIndex === question.correctOptionIndex;
+            
+            // Cập nhật số câu đúng/sai
+            if (question.isCorrect) {
+                correctAnswers++;
+            } else {
+                incorrectAnswers++;
+            }
+            
+            // Hiển thị lại câu hỏi với phản hồi
+            displayQuestion();
+            
+            // Cập nhật kết quả
+            updateResults();
+            
+            // Tự động chuyển câu hỏi nếu được bật
+            if (autoNextCheckbox.checked) {
+                startCountdown();
+            }
+        }
+        
+        // Bắt đầu đếm ngược để chuyển câu hỏi
+        function startCountdown() {
+            clearInterval(timer);
+            countdownValue = 3;
+            countdownSpan.textContent = countdownValue;
+            
+            timer = setInterval(() => {
+                countdownValue--;
+                countdownSpan.textContent = countdownValue;
+                
+                if (countdownValue <= 0) {
+                    clearInterval(timer);
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+        
+        // Chuyển đến câu hỏi tiếp theo
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            }
+        }
+        
+        // Quay lại câu hỏi trước đó
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        }
+        
+        // Cập nhật kết quả tổng thể
+        function updateResults() {
+            correctCountSpan.textContent = correctAnswers;
+            incorrectCountSpan.textContent = incorrectAnswers;
+            
+            const totalAnswered = correctAnswers + incorrectAnswers;
+            const score = totalAnswered > 0 ? Math.round((correctAnswers / totalAnswered) * 100) : 0;
+            scoreSpan.textContent = `${score}%`;
+            
+            // Hiển thị kết quả nếu đã trả lời hết
+            if (totalAnswered === questions.length && questions.length > 0) {
+                resultsContainer.style.display = 'block';
+            }
+        }
+        
+        // Đảo thứ tự mảng
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        // Sự kiện nút điều hướng
+        nextBtn.addEventListener('click', () => {
+            clearInterval(timer);
+            nextQuestion();
+        });
+              
+        prevBtn.addEventListener('click', () => {
+            clearInterval(timer);
+            prevQuestion();
+        });
+        
+        // Sự kiện đảo câu hỏi
+        shuffleQuestionsCheckbox.addEventListener('change', () => {
+            if (shuffleQuestionsCheckbox.checked && questions.length > 0) {
+                // Đảo thứ tự câu hỏi nhưng lưu lại số câu hỏi gốc
+                shuffleArray(questions);
+                currentQuestionIndex = 0;
+                displayQuestion();
+            }
+        });
+    </script>
+</body>
+</html>
