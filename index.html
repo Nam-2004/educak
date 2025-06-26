@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ôn Thi Big Data Nâng Cao</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
+            background-color: #e2e8f0; /* Light blue-gray background */
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -19,262 +20,298 @@
         .quiz-container {
             background-color: #ffffff;
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            border-radius: 16px; /* More rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+            max-width: 900px; /* Wider container */
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px; /* Increased spacing */
+            border: 1px solid #cbd5e1; /* Subtle border */
         }
         .header-section {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 20px;
+            margin-bottom: 15px;
         }
         .timer-progress-section {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            padding: 10px 15px;
-            background-color: #e0f2fe;
-            border-radius: 8px;
+            gap: 12px;
+            padding: 15px 20px;
+            background-color: #ebf8ff; /* Lighter blue */
+            border-radius: 12px;
             border: 1px solid #90cdf4;
-            color: #0c4a6e;
+            color: #2b6cb0; /* Darker blue text */
             font-weight: 600;
         }
         .timer-display {
-            font-size: 1.2rem;
+            font-size: 1.6rem; /* Larger timer font */
             text-align: center;
+            color: #2d3748; /* Dark gray */
         }
         .timer-controls {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-top: 5px;
+            gap: 12px;
+            margin-top: 8px;
         }
         .timer-controls button {
-            padding: 8px 15px;
-            border-radius: 6px;
-            background-color: #3b82f6;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background-color: #4299e1; /* Blue */
             color: white;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .timer-controls button:hover {
-            background-color: #2563eb;
+            background-color: #3182ce;
+            transform: translateY(-1px);
         }
         .timer-controls button:disabled {
-            background-color: #93c5fd;
+            background-color: #a0aec0; /* Gray disabled */
             cursor: not-allowed;
+            box-shadow: none;
         }
         .progress-bar-container {
             width: 100%;
-            height: 10px;
-            background-color: #e5e7eb;
-            border-radius: 5px;
+            height: 12px; /* Thicker progress bar */
+            background-color: #e2e8f0;
+            border-radius: 6px;
             overflow: hidden;
         }
         .progress-bar-fill {
             height: 100%;
             width: 0%;
-            background-color: #4f46e5;
-            border-radius: 5px;
+            background-color: #667eea; /* Indigo */
+            border-radius: 6px;
             transition: width 0.3s ease-out;
         }
 
         .settings-toggles {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            padding: 10px 15px;
-            background-color: #f9fafb;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
+            gap: 12px;
+            padding: 15px 20px;
+            background-color: #f7fafc; /* Lighter gray */
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
         }
         .toggle-switch {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         .toggle-switch input[type="checkbox"] {
             position: relative;
-            width: 40px;
-            height: 24px;
+            width: 48px; /* Larger toggle */
+            height: 28px;
             -webkit-appearance: none;
-            background: #ccc;
+            background: #cbd5e1; /* Gray */
             outline: none;
-            border-radius: 20px;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 24px;
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
             transition: 0.3s;
             cursor: pointer;
         }
         .toggle-switch input[type="checkbox"]:checked {
-            background: #4f46e5;
+            background: #667eea; /* Indigo */
         }
         .toggle-switch input[type="checkbox"]::before {
             content: '';
             position: absolute;
-            width: 16px;
-            height: 16px;
+            width: 20px; /* Larger handle */
+            height: 20px;
             border-radius: 50%;
             background: #fff;
             top: 4px;
             left: 4px;
             transition: 0.3s;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
         .toggle-switch input[type="checkbox"]:checked::before {
-            left: 20px;
+            left: 24px;
         }
+        .toggle-switch label {
+            font-size: 1.05rem;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
         .question-nav {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
+            gap: 10px; /* Increased gap */
+            margin-bottom: 25px;
             justify-content: center;
+            padding: 10px;
+            background-color: #f7fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            max-height: 150px; /* Limit height */
+            overflow-y: auto; /* Scrollable */
         }
         .question-nav-button {
-            padding: 8px 12px;
-            border-radius: 8px;
+            padding: 10px 15px; /* Larger buttons */
+            border-radius: 10px; /* More rounded */
             background-color: #e0e7ff;
-            color: #4f46e5;
-            font-weight: 500;
+            color: #5a67d8; /* Indigo text */
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.2s;
-            border: 1px solid #c7d2fe;
+            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #c3dafe;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         }
         .question-nav-button:hover {
             background-color: #c7d2fe;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .question-nav-button.active {
-            background-color: #4f46e5;
+            background-color: #667eea; /* Active indigo */
             color: #ffffff;
-            border-color: #4f46e5;
+            border-color: #667eea;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-1px);
         }
         .question-nav-button.answered-correctly {
-            background-color: #d1fae5; /* Green for correct */
-            color: #065f46;
-            border-color: #6ee7b7;
+            background-color: #c6f6d5; /* Light green */
+            color: #2f855a;
+            border-color: #68d391;
         }
         .question-nav-button.answered-incorrectly {
-            background-color: #fee2e2; /* Red for incorrect */
-            color: #991b1b;
-            border-color: #fca5a5;
+            background-color: #fed7d7; /* Light red */
+            color: #c53030;
+            border-color: #fc8181;
         }
         .question-nav-button.marked-for-review {
-            background-color: #fffbeb; /* Yellow for marked */
-            color: #92400e;
-            border-color: #fcd34d;
+            background-color: #feebc8; /* Light orange */
+            color: #d69e2e;
+            border-color: #fbd38d;
         }
 
 
         .question-box {
-            background-color: #f9fafb;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #e5e7eb;
+            background-color: #f7fafc;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
         }
         .question-text {
-            font-size: 1.25rem; /* 20px */
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #1f2937;
+            font-size: 1.4rem; /* Larger question text */
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #2d3748; /* Dark gray */
+            line-height: 1.6;
         }
         .options-grid {
             display: grid;
-            gap: 12px;
+            gap: 15px; /* Increased gap */
         }
         .option-button {
             width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 2px solid #d1d5db;
+            padding: 15px 20px; /* Larger padding */
+            border-radius: 10px;
+            border: 2px solid #cbd5e1;
             background-color: #ffffff;
             text-align: left;
             cursor: pointer;
             transition: all 0.2s ease-in-out;
-            font-size: 1rem;
-            color: #374151;
+            font-size: 1.1rem; /* Larger option font */
+            color: #4a5568;
             display: flex;
             align-items: flex-start;
-            gap: 10px;
+            gap: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         }
         .option-button:hover:not(.selected):not(.correct):not(.incorrect):not(.disabled) {
-            background-color: #eff6ff;
-            border-color: #93c5fd;
+            background-color: #ebf8ff; /* Light blue on hover */
+            border-color: #90cdf4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .option-button.selected {
-            background-color: #bfdbfe;
-            border-color: #3b82f6;
-            font-weight: 500;
-            color: #1e40af;
+            background-color: #bee3f8; /* Blue selected */
+            border-color: #63b3ed;
+            font-weight: 600;
+            color: #2c5282;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
         .option-button.correct {
-            background-color: #d1fae5;
-            border-color: #34d399;
-            font-weight: 500;
-            color: #065f46;
+            background-color: #c6f6d5; /* Green correct */
+            border-color: #68d391;
+            font-weight: 600;
+            color: #2f855a;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
         .option-button.incorrect {
-            background-color: #fee2e2;
-            border-color: #ef4444;
-            font-weight: 500;
-            color: #991b1b;
+            background-color: #fed7d7; /* Red incorrect */
+            border-color: #fc8181;
+            font-weight: 600;
+            color: #c53030;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
         .option-button.disabled {
             cursor: not-allowed;
-            opacity: 0.7;
+            opacity: 0.8; /* Slightly less opaque */
+            box-shadow: none;
         }
         .navigation-buttons {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
-            gap: 10px;
+            margin-top: 25px;
+            gap: 15px;
         }
         .nav-button {
-            padding: 12px 25px;
-            border-radius: 8px;
+            padding: 14px 28px; /* Larger buttons */
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.2s;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            flex-grow: 1; /* Make buttons grow */
+            text-align: center;
         }
         .nav-button.prev {
-            background-color: #6b7280;
+            background-color: #718096; /* Gray */
             color: #ffffff;
         }
         .nav-button.prev:hover {
-            background-color: #4b5563;
-            transform: translateY(-1px);
+            background-color: #4a5568;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         .nav-button.next, .nav-button.check, .nav-button.mark-for-review, .nav-button.reset-quiz {
-            background-color: #4f46e5;
+            background-color: #667eea; /* Indigo */
             color: #ffffff;
         }
         .nav-button.next:hover, .nav-button.check:hover, .nav-button.mark-for-review:hover, .nav-button.reset-quiz:hover {
-            background-color: #4338ca;
-            transform: translateY(-1px);
+            background-color: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         .nav-button:disabled {
-            background-color: #d1d5db;
-            color: #9ca3af;
+            background-color: #cbd5e1;
+            color: #a0aec0;
             cursor: not-allowed;
             box-shadow: none;
+            transform: none;
         }
         .score-display {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: #1f2937;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2d3748;
             text-align: center;
-            margin-top: 15px;
-            padding: 10px;
+            margin-top: 20px;
+            padding: 15px;
             background-color: #e0f2fe;
-            border-radius: 8px;
+            border-radius: 12px;
             border: 1px solid #90cdf4;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
         .message-box {
             position: fixed;
@@ -282,16 +319,17 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             z-index: 1000;
-            display: none; /* Hidden by default */
+            display: none;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
             text-align: center;
-            max-width: 350px;
+            max-width: 400px;
             width: 90%;
+            border: 1px solid #cbd5e1;
         }
         .message-box-overlay {
             position: fixed;
@@ -299,129 +337,197 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.6);
             z-index: 999;
-            display: none; /* Hidden by default */
+            display: none;
         }
         .message-box-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            color: #1f2937;
+            color: #2d3748;
         }
         .message-box-content {
-            font-size: 1rem;
-            color: #374151;
+            font-size: 1.1rem;
+            color: #4a5568;
         }
         .message-box-button {
-            padding: 10px 20px;
-            background-color: #4f46e5;
+            padding: 12px 25px;
+            background-color: #667eea;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .message-box-button:hover {
-            background-color: #4338ca;
+            background-color: #5a67d8;
+            transform: translateY(-1px);
         }
 
         .quiz-summary {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            margin-top: 20px;
-            display: none; /* Hidden by default */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 25px;
+            display: none;
+            border: 1px solid #e2e8f0;
         }
         .quiz-summary h2 {
-            font-size: 1.75rem; /* 28px */
+            font-size: 2rem;
             font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 20px;
+            color: #2d3748;
+            margin-bottom: 25px;
             text-align: center;
         }
         .incorrect-question-item, .marked-question-item {
-            background-color: #fef2f2;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #fecaca;
-            margin-bottom: 15px;
+            background-color: #fff5f5; /* Lighter red */
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #fed7d7;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
         }
         .marked-question-item {
-            background-color: #fffbeb;
-            border-color: #fcd34d;
+            background-color: #fffaf0; /* Lighter orange */
+            border-color: #feebc8;
         }
         .incorrect-question-item p, .marked-question-item p {
-            margin-bottom: 8px;
-            line-height: 1.5;
+            margin-bottom: 10px;
+            line-height: 1.6;
         }
         .incorrect-question-item .question-text-summary, .marked-question-item .question-text-summary {
-            font-weight: 600;
-            color: #991b1b;
+            font-weight: 700;
+            color: #c53030;
+            font-size: 1.1rem;
         }
         .marked-question-item .question-text-summary {
-            color: #92400e;
+            color: #d69e2e;
         }
         .incorrect-question-item .correct-answer-summary, .marked-question-item .correct-answer-summary {
-            font-weight: 600;
-            color: #065f46;
+            font-weight: 700;
+            color: #38a169; /* Green for correct answer text */
+            font-size: 1.05rem;
         }
         .incorrect-question-item .hint-summary, .marked-question-item .hint-summary {
             font-style: italic;
-            color: #4b5563;
+            color: #718096;
             font-size: 0.95rem;
-            margin-top: 10px;
-            padding-top: 8px;
-            border-top: 1px dashed #e5e7eb;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
         }
         .summary-section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1f2937;
-            margin-top: 20px;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #e5e7eb;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #cbd5e1;
+            text-align: left;
+        }
+        .no-items-message {
+            text-align: center;
+            color: #718096;
+            font-style: italic;
+            padding: 10px 0;
         }
 
         /* Responsive adjustments */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .quiz-container {
                 padding: 20px;
+                gap: 20px;
             }
-            .question-text {
-                font-size: 1.1rem;
+            .header-section {
+                gap: 15px;
             }
-            .option-button {
-                padding: 10px;
-                font-size: 0.95rem;
-            }
-            .nav-button {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-            .settings-toggles {
-                padding: 8px 12px;
-            }
-            .toggle-switch label {
-                font-size: 0.9rem;
-            }
-            .quiz-summary h2 {
-                font-size: 1.5rem;
-            }
-            .incorrect-question-item p, .marked-question-item p {
-                font-size: 0.95rem;
-            }
-            .incorrect-question-item .hint-summary, .marked-question-item .hint-summary {
-                font-size: 0.9rem;
+            .timer-progress-section, .settings-toggles {
+                padding: 12px 15px;
+                gap: 10px;
             }
             .timer-display {
-                font-size: 1rem;
+                font-size: 1.4rem;
             }
             .timer-controls button {
-                padding: 6px 10px;
-                font-size: 0.85rem;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .toggle-switch label {
+                font-size: 0.95rem;
+            }
+            .question-nav {
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+            .question-nav-button {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            .question-text {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
+            .options-grid {
+                gap: 12px;
+            }
+            .option-button {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+            .navigation-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .nav-button {
+                flex-basis: 48%; /* Two buttons per row */
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+            .score-display {
+                font-size: 1.1rem;
+                padding: 12px;
+            }
+            .quiz-summary {
+                padding: 20px;
+            }
+            .quiz-summary h2 {
+                font-size: 1.75rem;
+            }
+            .incorrect-question-item, .marked-question-item {
+                padding: 15px;
+            }
+            .incorrect-question-item .question-text-summary, .marked-question-item .question-text-summary {
+                font-size: 1rem;
+            }
+            .summary-section-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quiz-container {
+                padding: 15px;
+            }
+            .timer-display {
+                font-size: 1.2rem;
+            }
+            .timer-controls {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .timer-controls button {
+                width: 100%;
+            }
+            .nav-button {
+                flex-basis: 100%; /* One button per row */
+            }
+            .question-nav {
+                max-height: 120px;
             }
         }
     </style>
@@ -433,8 +539,8 @@
         <div class="header-section">
             <div class="timer-progress-section">
                 <div class="flex items-center justify-between">
-                    <label for="timeLimitInput" class="text-gray-700 font-medium mr-2">Thời gian:</label>
-                    <input type="number" id="timeLimitInput" value="60" min="1" max="180" class="w-20 p-1 border rounded-md text-center text-sm"> phút
+                    <label for="timeLimitInput" class="text-gray-700 font-medium mr-2">Thời gian làm bài:</label>
+                    <input type="number" id="timeLimitInput" value="60" min="1" max="180" class="w-24 p-2 border border-gray-300 rounded-md text-center text-base"> phút
                 </div>
                 <div id="timerDisplay" class="timer-display">00:00</div>
                 <div class="timer-controls">
@@ -491,10 +597,12 @@
             <h3 class="summary-section-title">Các câu hỏi làm sai</h3>
             <div id="incorrectQuestionsList">
                 <!-- Incorrect questions will be listed here -->
+                <p class="no-items-message">Không có câu trả lời sai!</p>
             </div>
             <h3 class="summary-section-title">Các câu hỏi đã đánh dấu xem lại</h3>
             <div id="markedQuestionsList">
                 <!-- Marked for review questions will be listed here -->
+                <p class="no-items-message">Không có câu hỏi nào được đánh dấu để xem lại.</p>
             </div>
         </div>
 
@@ -633,7 +741,7 @@
                 hint: "Không có một đặc trưng nào là quan trọng nhất tuyệt đối; tất cả các đặc trưng (Volume, Variety, Velocity) đều quan trọng trong việc định nghĩa Big Data."
             },
             {
-                question: "Đâu là đặc trưng quyết định việc triển khai Dữ liệu lớn? (Câu 12)",
+                question: "Đâu là đặc trưng quyết việc triển khai Dữ liệu lớn?",
                 options: [
                     "Khối lượng",
                     "Giá trị",
@@ -732,7 +840,7 @@
                 hint: "Tight Coupling (liên kết chặt) trong tích hợp dữ liệu có nhược điểm về độ trễ, phản hồi truy vấn và sự phụ thuộc vào nguồn dữ liệu."
             },
             {
-                question: "Nhược điểm của tích hợp dữ liệu theo phương pháp Loose Coupling (Câu 21)",
+                question: "Nhược điểm của tích hợp dữ liệu theo phương pháp Loose Coupling",
                 options: [
                     "Tất cả",
                     "Chi phí cao",
@@ -842,7 +950,7 @@
                 hint: "Google Bigtable là cơ sở dữ liệu NoSQL kiểu Wide-Column Store."
             },
             {
-                question: "Đâu không phải là RDBMS ? (Câu 31)",
+                question: "Đâu không phải là RDBMS ?",
                 options: [
                     "IBM DB2",
                     "MS SQL Server",
@@ -930,7 +1038,7 @@
                 hint: "Dex là một cơ sở dữ liệu đồ thị (Graph database), không phải Wide-column."
             },
             {
-                question: "Ưu điểm của hệ thống HDFS là gì ? (Câu 39)",
+                question: "Ưu điểm của hệ thống HDFS là gì ?",
                 options: [
                     "Lưu trữ phân tán, xử lý song song, khả năng chịu lỗi cao",
                     "Lưu trữ song song, xử lý phân tán, tính sẵn sàng cao",
@@ -941,7 +1049,7 @@
                 hint: "HDFS được thiết kế để lưu trữ phân tán, xử lý song song và có khả năng chịu lỗi."
             },
             {
-                question: "Ưu điểm của DFS là gì ? (Câu 40)",
+                question: "Ưu điểm của DFS là gì ?",
                 options: [
                     "Hệ thống lưu trữ song song nên tránh được ảnh hưởng khi một máy chủ hoặc bộ nhớ bị lỗi",
                     "Hệ thống được sao lưu tại Server thứ hai nên đảm bảo việc cung cấp dữ liệu",
@@ -952,7 +1060,7 @@
                 hint: "Ưu điểm chính của Hệ thống tệp phân tán (DFS) là khả năng chịu lỗi và cung cấp dữ liệu ổn định."
             },
             {
-                question: "Ưu điểm của công nghệ Cluster (Câu 41)",
+                question: "Ưu điểm của công nghệ Cluster",
                 options: [
                     "Tất cả",
                     "Hiệu quả chi phí",
@@ -963,7 +1071,7 @@
                 hint: "Công nghệ Cluster mang lại hiệu quả chi phí, tính sẵn sàng cao và khả năng mở rộng linh hoạt."
             },
             {
-                question: "Cluster node có mấy loại ? (Câu 42)",
+                question: "Cluster node có mấy loại ?",
                 options: [
                     "1",
                     "2",
@@ -974,7 +1082,7 @@
                 hint: "Trong kiến trúc Hadoop, có hai loại node chính là NameNode (Master) và DataNode (Slave)."
             },
             {
-                question: "Nguồn của kiến trúc HDFS trong Hadoop có nguồn gốc là (Câu 43)",
+                question: "Nguồn của kiến trúc HDFS trong Hadoop có nguồn gốc là",
                 options: [
                     "Hệ thống tệp phân phối của Google",
                     "Hệ thống tệp phân tán của Yahoo",
@@ -985,7 +1093,7 @@
                 hint: "HDFS được lấy cảm hứng từ Google File System (GFS)."
             },
             {
-                question: "Loại dữ liệu mà Hadoop có thể xử lý là (Câu 44)",
+                question: "Loại dữ liệu mà Hadoop có thể xử lý là",
                 options: [
                     "Structred (Có cấu trúc)",
                     "Semi-structured (Bán cấu trúc)",
@@ -996,7 +1104,7 @@
                 hint: "Hadoop có khả năng xử lý tất cả các loại dữ liệu: có cấu trúc, bán cấu trúc và phi cấu trúc."
             },
             {
-                question: "YARN là viết tắt của (Câu 45)",
+                question: "YARN là viết tắt của",
                 options: [
                     "Yahoo's another resource name",
                     "Yet another resource negotiator",
@@ -1007,7 +1115,7 @@
                 hint: "YARN là viết tắt của Yet Another Resource Negotiator."
             },
             {
-                question: "Điều nào sau đây không phải là mục tiêu của HDFS? (Câu 46)",
+                question: "Điều nào sau đây không phải là mục tiêu của HDFS?",
                 options: [
                     "Phát hiện lỗi và khôi phục",
                     "Xử lý tập dữ liệu khổng lồ",
@@ -1018,7 +1126,7 @@
                 hint: "HDFS không có mục tiêu 'Ngăn chặn việc xóa dữ liệu'. Nó tập trung vào khả năng chịu lỗi, xử lý dữ liệu lớn và băng thông cao."
             },
             {
-                question: "Trong HDFS, các tệp không thể (Câu 47)",
+                question: "Trong HDFS, các tệp không thể",
                 options: [
                     "Đọc",
                     "Xóa",
@@ -1029,7 +1137,7 @@
                 hint: "Trong HDFS, các tệp không thể trực tiếp 'Thực thi'."
             },
             {
-                question: "So với RDBMS, Hadoop (Câu 48)",
+                question: "So với RDBMS, Hadoop",
                 options: [
                     "Có tính toàn vẹn dữ liệu cao hơn.",
                     "Có giao dịch ACID không",
@@ -1040,7 +1148,7 @@
                 hint: "Hadoop vượt trội trong việc xử lý dữ liệu phi cấu trúc và bán cấu trúc so với RDBMS."
             },
             {
-                question: "Vấn đề chính gặp phải khi đọc và ghi dữ liệu song song từ nhiều đĩa là gì? (Câu 49)",
+                question: "Vấn đề chính gặp phải khi đọc và ghi dữ liệu song song từ nhiều đĩa là gì?",
                 options: [
                     "Xử lý khối lượng lớn dữ liệu nhanh hơn.",
                     "Kết hợp dữ liệu từ nhiều đĩa.",
@@ -1051,7 +1159,7 @@
                 hint: "Thách thức chính là kết hợp và đồng bộ hóa dữ liệu từ nhiều nguồn khác nhau."
             },
             {
-                question: "Tính năng định vị dữ liệu trong Hadoop có nghĩa là (Câu 50)",
+                question: "Tính năng định vị dữ liệu trong Hadoop có nghĩa là",
                 options: [
                     "lưu trữ cùng một dữ liệu trên nhiều nút.",
                     "chuyên vị trí dữ liệu từ nút này sang nút khác.",
@@ -1062,7 +1170,7 @@
                 hint: "Data locality (định vị dữ liệu) trong Hadoop có nghĩa là chuyển quá trình tính toán đến nơi dữ liệu được lưu trữ."
             },
             {
-                question: "Các tệp HDFS được thiết kế cho (Câu 51)",
+                question: "Các tệp HDFS được thiết kế cho",
                 options: [
                     "Nhiều người viết và sửa đổi ở các hiệu số tùy ý.",
                     "Chỉ nối vào cuối tệp.",
@@ -1073,7 +1181,7 @@
                 hint: "HDFS được tối ưu cho mô hình 'ghi một lần, đọc nhiều lần' (write-once, read-many)."
             },
             {
-                question: "Hệ thống Apache Hadoop được viết bằng ngôn ngữ nào? (Câu 52)",
+                question: "Hệ thống Apache Hadoop được viết bằng ngôn ngữ nào?",
                 options: [
                     "C ++",
                     "Python",
@@ -1084,7 +1192,7 @@
                 hint: "Apache Hadoop chủ yếu được viết bằng Java."
             },
             {
-                question: "Cái nào không phải là một trong đặc trưng 3Vs của dữ liệu lớn? (Câu 53)",
+                question: "Cái nào không phải là một trong đặc trưng 3Vs của dữ liệu lớn?",
                 options: [
                     "Vận tốc - Velocity",
                     "Tính xác thực - Veracity",
@@ -1095,7 +1203,7 @@
                 hint: "Tính xác thực (Veracity) là một trong 5Vs, nhưng không phải là một trong 3Vs gốc."
             },
             {
-                question: "Điều nào sau đây đúng đối với Hadoop? (Câu 54)",
+                question: "Điều nào sau đây đúng đối với Hadoop?",
                 options: [
                     "Đây là một khung phân tán.",
                     "Thuật toán chính được sử dụng trong đó là Map Reduce.",
@@ -1106,7 +1214,7 @@
                 hint: "Tất cả các phát biểu trên đều đúng về Hadoop."
             },
             {
-                question: "Loại nào sau đây lưu trữ dữ liệu? (Câu 55)",
+                question: "Loại nào sau đây lưu trữ dữ liệu?",
                 options: [
                     "Name node",
                     "Data node",
@@ -1117,7 +1225,7 @@
                 hint: "DataNode là nơi lưu trữ dữ liệu thực tế trong HDFS."
             },
             {
-                question: "Node nào sau đây quản lý các nút khác? (Câu 56)",
+                question: "Node nào sau đây quản lý các nút khác?",
                 options: [
                     "Name node",
                     "Data node",
@@ -1128,7 +1236,7 @@
                 hint: "NameNode là Master node, quản lý không gian tên tệp và điều phối các DataNode."
             },
             {
-                question: "Hadoop xử lý khối lượng lớn dữ liệu như thế nào? (Câu 57)",
+                question: "Hadoop xử lý khối lượng lớn dữ liệu như thế nào?",
                 options: [
                     "Hadoop sử dụng song song rất nhiều máy. Điều này tối ưu hóa việc xử lý dữ liệu.",
                     "Hadoop được thiết kế đặc biệt để xử lý lượng lớn dữ liệu bằng cách tận dụng phần cứng MPP.",
@@ -1139,7 +1247,7 @@
                 hint: "Hadoop áp dụng nguyên tắc 'data locality': di chuyển logic xử lý (mã) đến gần dữ liệu thay vì di chuyển dữ liệu."
             },
             {
-                question: "MapReduce do công ty nào phát triển ? (Câu 58)",
+                question: "MapReduce do công ty nào phát triển ?",
                 options: [
                     "Apache",
                     "Google",
@@ -1150,7 +1258,7 @@
                 hint: "MapReduce được phát triển bởi Google."
             },
             {
-                question: "Dịch vụ đám mây nào hỗ trợ tốt cho Big Data ? (Câu 59)",
+                question: "Dịch vụ đám mây nào hỗ trợ tốt cho Big Data ?",
                 options: [
                     "Amazon AWS",
                     "Google Cloud",
@@ -1161,7 +1269,7 @@
                 hint: "Tất cả các nhà cung cấp đám mây lớn như AWS, Google Cloud, Azure đều có các dịch vụ hỗ trợ Big Data mạnh mẽ."
             },
             {
-                question: "Nhược điểm khi triển khai Big Data trên nền tảng Cloud Computing là? (Câu 60)",
+                question: "Nhược điểm khi triển khai Big Data trên nền tảng Cloud Computing là?",
                 options: [
                     "Nhiều rủi ro cho hệ thống",
                     "Không có ý đúng",
@@ -1172,7 +1280,7 @@
                 hint: "Triển khai trên đám mây có thể tiềm ẩn rủi ro về bảo mật và kiểm soát dữ liệu nếu không được quản lý đúng cách."
             },
             {
-                question: "Mô hình Điện toán đám mây IaaS ? (Câu 61)",
+                question: "Mô hình Điện toán đám mây IaaS ?",
                 options: [
                     "Cơ sở hạ tầng dưới dạng dịch vụ",
                     "Nền tảng dưới dạng dịch vụ",
@@ -1183,7 +1291,7 @@
                 hint: "IaaS là viết tắt của Infrastructure as a Service."
             },
             {
-                question: "Mô hình Điện toán đám mây PaaS ? (Câu 62)",
+                question: "Mô hình Điện toán đám mây PaaS ?",
                 options: [
                     "Cơ sở hạ tầng dưới dạng dịch vụ",
                     "Nền tảng dưới dạng dịch vụ",
@@ -1194,7 +1302,7 @@
                 hint: "PaaS là viết tắt của Platform as a Service."
             },
             {
-                question: "Mô hình Điện toán đám mây SaaS ? (Câu 63)",
+                question: "Mô hình Điện toán đám mây SaaS ?",
                 options: [
                     "Cơ sở hạ tầng dưới dạng dịch vụ",
                     "Nền tảng dưới dạng dịch vụ",
@@ -1205,7 +1313,7 @@
                 hint: "SaaS là viết tắt của Software as a Service."
             },
             {
-                question: "Lợi ích của Cloud Computing với Big Data là ? (Câu 64)",
+                question: "Lợi ích của Cloud Computing với Big Data là ?",
                 options: [
                     "Triển khai hạ tầng nhanh chóng",
                     "Phân tích theo thời gian thực",
@@ -1216,7 +1324,7 @@
                 hint: "Điện toán đám mây mang lại nhiều lợi ích cho Big Data, bao gồm triển khai nhanh, phân tích thời gian thực và tối ưu chi phí."
             },
             {
-                question: "Lợi ích vượt trội của Cloud Computing với Big Data là ? (Câu 65)",
+                question: "Lợi ích vượt trội của Cloud Computing với Big Data là ?",
                 options: [
                     "Hạn chế đầu tư máy móc",
                     "Phân tích theo thời gian thực",
@@ -1227,7 +1335,7 @@
                 hint: "Lợi ích vượt trội là giảm thiểu đầu tư ban đầu vào phần cứng."
             },
             {
-                question: "Dịch vụ lưu trữ dữ của Amazon - AWS là? (Câu 66)",
+                question: "Dịch vụ lưu trữ dữ của Amazon - AWS là?",
                 options: [
                     "Amazon S3",
                     "Amazon RDS",
@@ -1238,7 +1346,7 @@
                 hint: "Amazon S3 (Simple Storage Service) là dịch vụ lưu trữ đối tượng của AWS."
             },
             {
-                question: "Dịch vụ lưu trữ của Microsoft Azure là ? (Câu 67)",
+                question: "Dịch vụ lưu trữ của Microsoft Azure là ?",
                 options: [
                     "Virtual Machines",
                     "Azure Function",
@@ -1249,7 +1357,7 @@
                 hint: "Azure Disk Storage là dịch vụ lưu trữ đĩa của Azure."
             },
             {
-                question: "Dịch vụ lưu trữ của Google Cloud Platfom là? (Câu 68)",
+                question: "Dịch vụ lưu trữ của Google Cloud Platfom là?",
                 options: [
                     "Google Driver",
                     "Goolge Functions",
@@ -1260,7 +1368,7 @@
                 hint: "Google Cloud Storage là dịch vụ lưu trữ đối tượng của Google Cloud."
             },
             {
-                question: "Đám mây AWS cung cấp dịch vụ NoSQL Database (Câu 69)",
+                question: "Đám mây AWS cung cấp dịch vụ NoSQL Database",
                 options: [
                     "Amazon RDS",
                     "Amazon EC2",
@@ -1271,7 +1379,7 @@
                 hint: "Amazon DynamoDB là dịch vụ cơ sở dữ liệu NoSQL của AWS."
             },
             {
-                question: "Đám mây Microsoft Azure cung cấp dịch vụ NoSQL Database (Câu 70)",
+                question: "Đám mây Microsoft Azure cung cấp dịch vụ NoSQL Database",
                 options: [
                     "Table Storage",
                     "SQL DB",
@@ -1282,7 +1390,7 @@
                 hint: "Azure Table Storage là dịch vụ NoSQL key-value của Azure."
             },
             {
-                question: "Dịch vụ tích hợp dữ liệu trên đám mây trên Google Cloud Platform (Câu 71)",
+                question: "Dịch vụ tích hợp dữ liệu trên đám mây trên Google Cloud Platform",
                 options: [
                     "Google Cloud Dataprep",
                     "Google Cloud Data Fusion",
@@ -1293,7 +1401,7 @@
                 hint: "Google Cloud Data Fusion là dịch vụ tích hợp dữ liệu được quản lý hoàn toàn."
             },
             {
-                question: "Dịch vụ thông minh giúp khái phá, làm sạch dữ liệu trên Google Cloud Platform (Câu 72)",
+                question: "Dịch vụ thông minh giúp khái phá, làm sạch dữ liệu trên Google Cloud Platform",
                 options: [
                     "Goolge Functions",
                     "Google BigQuery",
@@ -1304,7 +1412,7 @@
                 hint: "Google Cloud Dataprep là dịch vụ giúp khám phá, làm sạch và chuẩn bị dữ liệu."
             },
             {
-                question: "Trên Google Cloud Platform dịch vụ nào quản lý CSDL NoQuery (Câu 73)",
+                question: "Trên Google Cloud Platform dịch vụ nào quản lý CSDL NoQuery",
                 options: [
                     "Google Cloud Dataprep",
                     "Google Data Catalog",
@@ -1315,7 +1423,7 @@
                 hint: "Cloud Bigtable là dịch vụ NoSQL Wide-column của Google Cloud."
             },
             {
-                question: "Trên Google Cloud Platform dịch vụ nào quản lý danh mục dữ liệu (Câu 74)",
+                question: "Trên Google Cloud Platform dịch vụ nào quản lý danh mục dữ liệu",
                 options: [
                     "Google Data Catalog",
                     "Google Cloud Dataprep",
@@ -1326,7 +1434,7 @@
                 hint: "Google Data Catalog là dịch vụ quản lý siêu dữ liệu và danh mục dữ liệu."
             },
             {
-                question: "Trên Google Cloud Platform dịch vụ phân tích dữ liệu được cung cấp (Câu 75)",
+                question: "Trên Google Cloud Platform dịch vụ phân tích dữ liệu được cung cấp",
                 options: [
                     "Google Data Catalog",
                     "Google BigQuery",
@@ -1337,7 +1445,7 @@
                 hint: "Google BigQuery là kho dữ liệu và dịch vụ phân tích dữ liệu lớn của Google Cloud."
             },
             {
-                question: "Nền tảng Cloudera hỗ trợ hệ CSDL quan hệ nào? (Câu 76)",
+                question: "Nền tảng Cloudera hỗ trợ hệ CSDL quan hệ nào?",
                 options: [
                     "MySQL",
                     "Oracle",
@@ -1348,7 +1456,7 @@
                 hint: "Cloudera hỗ trợ tích hợp với nhiều hệ quản trị CSDL quan hệ khác nhau."
             },
             {
-                question: "Hệ CSDL NoSQL trên nền tảng Cloudera là ? (Câu 77)",
+                question: "Hệ CSDL NoSQL trên nền tảng Cloudera là ?",
                 options: [
                     "Apache Accumulo",
                     "DynamoDB",
@@ -1370,7 +1478,7 @@
                 hint: "Cloudera tập trung vào Hadoop để phân tích dữ liệu lớn."
             },
             {
-                question: "Cloudera Enterprise có thể được triển khai trên đám mây nào (Câu 79)",
+                question: "Cloudera Enterprise có thể được triển khai trên đám mây nào",
                 options: [
                     "Google Cloud",
                     "Amazon AWS",
@@ -1381,7 +1489,7 @@
                 hint: "Cloudera Enterprise có thể triển khai trên nhiều nền tảng đám mây, bao gồm Google Cloud, AWS và Azure."
             },
             {
-                question: "Công cụ trên Google Cloud Platform chuyển đổi dữ liệu hỗ trợ quyết định (Câu 80)",
+                question: "Công cụ trên Google Cloud Platform chuyển đổi dữ liệu hỗ trợ quyết định",
                 options: [
                     "Google Cloud",
                     "Google Data Catalog",
@@ -1392,7 +1500,7 @@
                 hint: "Google Data Studio (nay là Looker Studio) là công cụ trực quan hóa và báo cáo dữ liệu."
             },
             {
-                question: "Mô hình chính dành cho Điện toán đám mây ? (Câu 81)",
+                question: "Mô hình chính dành cho Điện toán đám mây ?",
                 options: [
                     "Cơ sở hạ tầng dưới dạng dịch vụ (IaaS)",
                     "Tất cả",
@@ -1403,7 +1511,7 @@
                 hint: "Các mô hình chính của Điện toán đám mây bao gồm IaaS, PaaS và SaaS."
             },
             {
-                question: "Kiểu phân tích dữ liệu nào cho ta biết điều gì đã xảy ra? (Câu 82)",
+                question: "Kiểu phân tích dữ liệu nào cho ta biết điều gì đã xảy ra?",
                 options: [
                     "Descriptive Analysis",
                     "Diagnostic Analysis",
@@ -1414,7 +1522,7 @@
                 hint: "Phân tích mô tả (Descriptive Analysis) giúp hiểu về những gì đã xảy ra trong quá khứ."
             },
             {
-                question: "Kiểu phân tích dữ liệu nào chuẩn đoán lý do cho kết quả ? (Câu 83)",
+                question: "Kiểu phân tích dữ liệu nào chuẩn đoán lý do cho kết quả ?",
                 options: [
                     "Descriptive Analysis",
                     "Diagnostic Analysis",
@@ -1425,7 +1533,7 @@
                 hint: "Phân tích chuẩn đoán (Diagnostic Analysis) tìm hiểu lý do tại sao một sự kiện xảy ra."
             },
             {
-                question: "Kiểu phân tích dữ liệu nào dự đoán điều sẽ xảy ra ? (Câu 84)",
+                question: "Kiểu phân tích dữ liệu nào dự đoán điều sẽ xảy ra ?",
                 options: [
                     "Descriptive Analysis",
                     "Diagnostic Analysis",
@@ -1436,7 +1544,7 @@
                 hint: "Phân tích dự đoán (Predictive Analysis) tập trung vào việc dự đoán tương lai."
             },
             {
-                question: "Kiểu phân tích nào để hỗ trợ đưa ra quyết định ? (Câu 85)",
+                question: "Kiểu phân tích nào để hỗ trợ đưa ra quyết định ?",
                 options: [
                     "Descriptive Analysis",
                     "Diagnostic Analysis",
@@ -1447,7 +1555,7 @@
                 hint: "Phân tích đề xuất (Prescriptive Analysis) cung cấp các khuyến nghị để đưa ra quyết định tối ưu."
             },
             {
-                question: "Loại phân tích dữ liệu nào kết quả thu được cho ta biết điều gì đã xảy ra ? (Câu 86)",
+                question: "Loại phân tích dữ liệu nào kết quả thu được cho ta biết điều gì đã xảy ra ?",
                 options: [
                     "Phân tích mô tả",
                     "Phân tích chuẩn đoán",
@@ -1458,7 +1566,7 @@
                 hint: "Phân tích mô tả trả lời câu hỏi 'điều gì đã xảy ra'."
             },
             {
-                question: "Loại phân tích dữ liệu nào kết quả thu được cho ta biết tại sao điều đó xảy ra? (Câu 87)",
+                question: "Loại phân tích dữ liệu nào kết quả thu được cho ta biết tại sao điều đó xảy ra?",
                 options: [
                     "Phân tích mô tả",
                     "Phân tích chuẩn đoán",
@@ -1569,7 +1677,7 @@
             },
             {
                 question: "Trong MapReduce loại nào sau đây thực thi các tác vụ và cung cấp thông tin trạng thai tác vụ? (Câu 97)",
-                options: [
+                "options": [
                     "Name node",
                     "Master node",
                     "Single Master",
@@ -1909,13 +2017,13 @@
         const shuffleAnswersToggle = document.getElementById('shuffleAnswers');
         const shuffleQuestionsOrderToggle = document.getElementById('shuffleQuestionsOrder');
         const studyModeToggle = document.getElementById('studyModeToggle');
-        const markForReviewBtn = document.getElementById('markForReviewBtn'); // New button
+        const markForReviewBtn = document.getElementById('markForReviewBtn');
         const questionNav = document.getElementById('questionNav');
         const scoreDisplay = document.getElementById('scoreDisplay');
         const resetQuizBtn = document.getElementById('resetQuizBtn');
         const quizSummary = document.getElementById('quizSummary');
         const incorrectQuestionsList = document.getElementById('incorrectQuestionsList');
-        const markedQuestionsList = document.getElementById('markedQuestionsList'); // New list for marked questions
+        const markedQuestionsList = document.getElementById('markedQuestionsList');
 
         const timeLimitInput = document.getElementById('timeLimitInput');
         const timerDisplay = document.getElementById('timerDisplay');
@@ -1930,7 +2038,7 @@
         const messageBoxContent = document.getElementById('messageBoxContent');
         const messageBoxButton = document.getElementById('messageBoxButton');
 
-        // Hàm hiển thị hộp thông báo tùy chỉnh
+        // Function to show custom message box
         function showMessageBox(title, content, onConfirm = null) {
             messageBoxTitle.textContent = title;
             messageBoxContent.textContent = content;
@@ -1948,7 +2056,7 @@
             };
         }
 
-        // Hàm xáo trộn mảng (Fisher-Yates algorithm)
+        // Function to shuffle an array (Fisher-Yates algorithm)
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -1957,17 +2065,17 @@
             return array;
         }
 
-        // Hàm ánh xạ A, B, C, D sang chỉ số 0, 1, 2, 3
+        // Function to map A, B, C, D to indices 0, 1, 2, 3
         function getOptionIndex(optionLetter) {
             return optionLetter.charCodeAt(0) - 'A'.charCodeAt(0);
         }
 
-        // Hàm ánh xạ chỉ số 0, 1, 2, 3 sang A, B, C, D
+        // Function to map indices 0, 1, 2, 3 to A, B, C, D
         function getOptionLetter(optionIndex) {
             return String.fromCharCode('A'.charCodeAt(0) + optionIndex);
         }
 
-        // Hàm khởi tạo thứ tự câu hỏi (xáo trộn hoặc tuần tự)
+        // Function to initialize question order (shuffled or sequential)
         function initializeQuizOrder() {
             if (shuffleQuestionsOrderToggle.checked) {
                 currentQuizOrder = shuffleArray(Array.from({ length: quizData.length }, (_, i) => i));
@@ -1976,7 +2084,7 @@
             }
         }
 
-        // Hàm hiển thị câu hỏi hiện tại
+        // Function to display the current question
         function displayQuestion() {
             const originalQuestionIndex = currentQuizOrder[currentQuestionIndex];
             const questionData = quizData[originalQuestionIndex];
@@ -1986,14 +2094,14 @@
             questionTextElem.textContent = questionData.question;
             optionsContainerElem.innerHTML = '';
 
-            // Tạo một bản sao của các lựa chọn để xáo trộn
+            // Create a copy of options to shuffle
             let optionsToDisplay = [...questionData.options];
 
             if (shuffleAnswersToggle.checked) {
-                // Xáo trộn các lựa chọn, giữ originalIdx
+                // Shuffle options, keeping originalIdx
                 shuffledOptions = shuffleArray(optionsToDisplay.map((opt, idx) => ({ opt, originalIdx: idx })));
             } else {
-                // Giữ nguyên thứ tự
+                // Keep original order
                 shuffledOptions = optionsToDisplay.map((opt, idx) => ({ opt, originalIdx: idx }));
             }
 
@@ -2003,22 +2111,21 @@
             shuffledOptions.forEach((item, index) => {
                 const optionButton = document.createElement('button');
                 optionButton.classList.add('option-button', 'rounded-lg', 'focus:outline-none');
-                optionButton.dataset.originalIndex = item.originalIdx; // Lưu trữ chỉ số gốc của đáp án
-                optionButton.textContent = `${getOptionLetter(index)}. ${item.opt}`; // Hiển thị đáp án A, B, C, D theo thứ tự mới
+                optionButton.dataset.originalIndex = item.originalIdx; // Store original index of the option
+                optionButton.innerHTML = `${getOptionLetter(index)}. ${item.opt}`; // Display option letter and text
                 optionsContainerElem.appendChild(optionButton);
 
-                if (hasBeenChecked || isTimerFinished()) { // If timer finished, disable all options
-                    // Nếu câu hỏi đã được kiểm tra, vô hiệu hóa các lựa chọn
+                if (hasBeenChecked || isTimerFinished()) { // If question checked or timer finished, disable options
                     optionButton.classList.add('disabled');
                     optionButton.disabled = true;
 
-                    // Đánh dấu đáp án đúng và bôi đậm
+                    // Highlight correct answer and bold it
                     if (item.originalIdx === correctOptionIndex) {
                         optionButton.classList.add('correct');
                         optionButton.classList.remove('selected');
-                        optionButton.innerHTML = `${getOptionLetter(index)}. <b>${item.opt}</b>`;
+                        optionButton.innerHTML = `${getOptionLetter(index)}. <b>${item.opt}</b>`; // Bold correct answer
                     }
-                    // Đánh dấu lựa chọn của người dùng (nếu có) và màu đỏ nếu sai
+                    // Highlight user's selected answer (if any) and mark incorrect if wrong
                     if (item.originalIdx === questionState.userAnswer) {
                         optionButton.classList.add('selected');
                         if (questionState.userAnswer !== correctOptionIndex) {
@@ -2026,9 +2133,9 @@
                         }
                     }
                 } else {
-                    // Nếu chưa kiểm tra, gắn sự kiện click
+                    // Attach click event listener if not checked and timer not finished
                     optionButton.addEventListener('click', () => selectOption(item.originalIdx, optionButton));
-                    // Nếu người dùng đã chọn đáp án trước đó nhưng chưa kiểm tra, đánh dấu lại
+                    // If user previously selected an answer, highlight it
                     if (questionState.userAnswer !== null && item.originalIdx === questionState.userAnswer) {
                         optionButton.classList.add('selected');
                     }
@@ -2037,38 +2144,38 @@
 
             updateNavigationButtons();
             updateQuestionNavButtons();
-            updateMarkForReviewButton(); // Update mark for review button state
-            updateProgressBar(); // Update progress bar
+            updateMarkForReviewButton();
+            updateProgressBar();
             quizSummary.classList.add('hidden'); // Hide summary when navigating questions
         }
 
-        // Hàm chọn đáp án
+        // Function to select an option
         function selectOption(selectedIndex, clickedButton) {
             const originalQuestionIndex = currentQuizOrder[currentQuestionIndex];
             const questionState = questionStates[originalQuestionIndex];
 
             // Only allow selection if not already checked and timer is not finished
             if (questionState.status === 'unanswered' && !isTimerFinished()) {
-                // Xóa lựa chọn cũ
+                // Remove previous selection
                 document.querySelectorAll('.option-button').forEach(btn => {
                     btn.classList.remove('selected');
                 });
 
-                // Đánh dấu lựa chọn mới
+                // Highlight new selection
                 clickedButton.classList.add('selected');
-                questionState.userAnswer = selectedIndex; // Lưu trữ đáp án người dùng theo chỉ số gốc
+                questionState.userAnswer = selectedIndex; // Store user's answer based on original index
 
-                // Nếu đang ở chế độ học tập, kiểm tra đáp án ngay lập tức
+                // If in study mode, check answer immediately
                 if (studyModeToggle.checked) {
                     checkAnswer();
                 } else {
-                    // Ngược lại, kích hoạt nút kiểm tra đáp án
+                    // Otherwise, enable check answer button
                     checkAnswerBtn.disabled = false;
                 }
             }
         }
 
-        // Hàm kiểm tra đáp án
+        // Function to check the answer
         function checkAnswer() {
             const originalQuestionIndex = currentQuizOrder[currentQuestionIndex];
             const questionData = quizData[originalQuestionIndex];
@@ -2079,7 +2186,7 @@
                 return;
             }
 
-            // Vô hiệu hóa tất cả các nút đáp án sau khi kiểm tra
+            // Disable all option buttons after checking
             document.querySelectorAll('.option-button').forEach(btn => {
                 btn.classList.add('disabled');
                 btn.disabled = true;
@@ -2088,35 +2195,35 @@
             const correctOptionIndex = getOptionIndex(questionData.answer);
             const userAnswerIndex = questionState.userAnswer;
 
-            // Đánh dấu đáp án đúng/sai trên UI và bôi đậm đáp án đúng
+            // Highlight correct/incorrect answers on UI and bold correct answer
             shuffledOptions.forEach((item, index) => {
                 const optionButton = optionsContainerElem.children[index];
                 if (item.originalIdx === correctOptionIndex) {
                     optionButton.classList.add('correct');
-                    optionButton.classList.remove('selected'); // Đảm bảo đáp án đúng không bị ghi đè bởi "selected"
-                    optionButton.innerHTML = `${getOptionLetter(index)}. <b>${item.opt}</b>`; // Bôi đậm đáp án đúng
+                    optionButton.classList.remove('selected');
+                    optionButton.innerHTML = `${getOptionLetter(index)}. <b>${item.opt}</b>`; // Bold correct answer
                 } else if (item.originalIdx === userAnswerIndex) {
                     optionButton.classList.add('incorrect');
                 }
             });
 
-            // Cập nhật trạng thái câu hỏi theo chỉ số gốc
+            // Update question status based on original index
             if (userAnswerIndex === correctOptionIndex) {
                 questionState.status = 'correct';
             } else {
                 questionState.status = 'incorrect';
             }
 
-            // Vô hiệu hóa nút kiểm tra đáp án sau khi đã kiểm tra (nếu không ở chế độ học tập)
+            // Disable check answer button after checking (if not in study mode)
             if (!studyModeToggle.checked) {
                 checkAnswerBtn.disabled = true;
             }
 
-            updateQuestionNavButtons(); // Cập nhật màu sắc nút điều hướng
-            updateNavigationButtons(); // Cập nhật trạng thái nút điều hướng (ẩn/hiện nút kiểm tra)
+            updateQuestionNavButtons(); // Update navigation button colors
+            updateNavigationButtons(); // Update navigation button states (hide/show check button)
         }
 
-        // Hàm cập nhật trạng thái các nút điều hướng
+        // Function to update navigation button states
         function updateNavigationButtons() {
             prevBtn.disabled = currentQuestionIndex === 0;
             nextBtn.disabled = currentQuestionIndex === quizData.length - 1;
@@ -2127,7 +2234,7 @@
             const hasBeenChecked = questionState.status !== 'unanswered';
             const timerFinished = isTimerFinished();
 
-            // Ẩn hoặc hiển thị nút kiểm tra đáp án dựa trên chế độ học tập
+            // Hide or show check answer button based on study mode and timer status
             if (studyModeToggle.checked || timerFinished) {
                 checkAnswerBtn.classList.add('hidden');
             } else {
@@ -2138,7 +2245,7 @@
             // Mark for Review button state
             markForReviewBtn.disabled = timerFinished;
 
-            // Hiển thị nút Reset và tổng kết nếu tất cả câu hỏi đã được trả lời và kiểm tra hoặc hết giờ
+            // Show Reset button and summary if all questions are answered/checked or timer finished
             const allAnsweredOrChecked = questionStates.every(state => state.status !== 'unanswered');
             if ((currentQuestionIndex === quizData.length - 1 && allAnsweredOrChecked) || timerFinished) {
                 resetQuizBtn.classList.remove('hidden');
@@ -2153,7 +2260,7 @@
             }
         }
 
-        // Hàm điều hướng câu hỏi
+        // Function to navigate between questions
         function navigate(direction) {
             if (direction === 'prev' && currentQuestionIndex > 0) {
                 currentQuestionIndex--;
@@ -2163,14 +2270,14 @@
             displayQuestion();
         }
 
-        // Tạo các nút điều hướng câu hỏi (1, 2, 3...)
+        // Function to create question navigation buttons (1, 2, 3...)
         function createQuestionNavigation() {
             questionNav.innerHTML = '';
             for (let i = 0; i < quizData.length; i++) {
                 const button = document.createElement('button');
                 button.classList.add('question-nav-button');
-                button.textContent = i + 1; // Hiển thị số thứ tự gốc
-                button.dataset.originalIndex = i; // Lưu trữ chỉ số gốc
+                button.textContent = i + 1; // Display original question number
+                button.dataset.originalIndex = i; // Store original index
                 
                 const displayIndex = currentQuizOrder.indexOf(i);
                 
@@ -2178,7 +2285,7 @@
                     button.classList.add('active');
                 }
                 button.addEventListener('click', () => {
-                    currentQuestionIndex = displayIndex; // Chuyển đến vị trí hiển thị của câu hỏi đó
+                    currentQuestionIndex = displayIndex; // Navigate to the question's display position
                     displayQuestion();
                 });
                 questionNav.appendChild(button);
@@ -2186,7 +2293,7 @@
             updateQuestionNavButtons();
         }
 
-        // Cập nhật màu sắc các nút điều hướng câu hỏi dựa trên trạng thái làm bài
+        // Function to update colors of question navigation buttons based on quiz status
         function updateQuestionNavButtons() {
             document.querySelectorAll('.question-nav-button').forEach(button => {
                 button.classList.remove('active', 'answered-correctly', 'answered-incorrectly', 'marked-for-review');
@@ -2210,7 +2317,7 @@
             });
         }
 
-        // Tính điểm và hiển thị
+        // Function to calculate and display score
         function calculateScore() {
             let correctCount = 0;
             for (let i = 0; i < quizData.length; i++) {
@@ -2226,7 +2333,7 @@
             scoreDisplay.textContent = `Bạn đã trả lời đúng ${correctCount}/${quizData.length} câu.`;
         }
 
-        // Hiển thị phần tổng kết các câu trả lời sai và câu đã đánh dấu
+        // Function to display summary of incorrect and marked questions
         function displayQuizSummary() {
             incorrectQuestionsList.innerHTML = '';
             markedQuestionsList.innerHTML = '';
@@ -2263,16 +2370,16 @@
             });
 
             if (!hasIncorrectAnswers) {
-                incorrectQuestionsList.innerHTML = '<p class="text-center text-green-700">Không có câu trả lời sai!</p>';
+                incorrectQuestionsList.innerHTML = '<p class="no-items-message">Không có câu trả lời sai!</p>';
             }
             if (!hasMarkedQuestions) {
-                markedQuestionsList.innerHTML = '<p class="text-center text-gray-500">Không có câu hỏi nào được đánh dấu để xem lại.</p>';
+                markedQuestionsList.innerHTML = '<p class="no-items-message">Không có câu hỏi nào được đánh dấu để xem lại.</p>';
             }
             
             quizSummary.classList.remove('hidden');
         }
 
-        // Hàm quản lý nút đánh dấu xem lại
+        // Function to update the state of the "Mark for Review" button
         function updateMarkForReviewButton() {
             const originalQuestionIndex = currentQuizOrder[currentQuestionIndex];
             const questionState = questionStates[originalQuestionIndex];
@@ -2287,7 +2394,7 @@
             }
         }
 
-        // Hàm chuyển đổi trạng thái đánh dấu xem lại
+        // Function to toggle the "Mark for Review" status
         function toggleMarkForReview() {
             const originalQuestionIndex = currentQuizOrder[currentQuestionIndex];
             questionStates[originalQuestionIndex].isMarkedForReview = !questionStates[originalQuestionIndex].isMarkedForReview;
@@ -2314,6 +2421,7 @@
             isTimerRunning = true;
             startTimerBtn.disabled = true;
             pauseTimerBtn.disabled = false;
+            resetTimerBtn.disabled = true; // Disable reset while running
             timeLimitInput.disabled = true; // Disable input when timer starts
             timerInterval = setInterval(() => {
                 timeLeft--;
@@ -2327,6 +2435,7 @@
             clearInterval(timerInterval);
             startTimerBtn.disabled = false;
             pauseTimerBtn.disabled = true;
+            resetTimerBtn.disabled = false; // Enable reset when paused
         }
 
         function resetTimer() {
@@ -2336,6 +2445,7 @@
             updateTimerDisplay();
             startTimerBtn.disabled = false;
             pauseTimerBtn.disabled = true;
+            resetTimerBtn.disabled = false;
             timeLimitInput.disabled = false; // Re-enable input
         }
 
@@ -2345,12 +2455,10 @@
                 'Hết giờ!',
                 'Thời gian làm bài đã kết thúc. Bài thi sẽ được tổng kết.',
                 () => {
-                    // Check all unanswered questions as incorrect at the end of timer
+                    // Mark all unanswered questions as incorrect at the end of timer
                     questionStates.forEach((state, originalIdx) => {
                         if (state.status === 'unanswered') {
                             state.status = 'incorrect';
-                            // No user answer means it's wrong, but don't set userAnswer to a value
-                            // unless we want to show a specific wrong choice. For now, null is fine.
                         }
                     });
                     currentQuestionIndex = quizData.length - 1; // Move to last question to trigger summary
@@ -2365,11 +2473,12 @@
         }
 
         function updateProgressBar() {
-            const progress = (currentQuestionIndex + 1) / quizData.length * 100;
+            const answeredCount = questionStates.filter(state => state.userAnswer !== null).length;
+            const progress = (answeredCount / quizData.length) * 100;
             progressBarFill.style.width = `${progress}%`;
         }
 
-        // Reset bài thi
+        // Reset quiz
         function resetQuiz() {
             showMessageBox(
                 'Xác nhận làm lại bài thi',
@@ -2387,8 +2496,8 @@
                     scoreDisplay.classList.add('hidden');
                     resetQuizBtn.classList.add('hidden');
                     quizSummary.classList.add('hidden');
-                    incorrectQuestionsList.innerHTML = '';
-                    markedQuestionsList.innerHTML = '';
+                    incorrectQuestionsList.innerHTML = '<p class="no-items-message">Không có câu trả lời sai!</p>';
+                    markedQuestionsList.innerHTML = '<p class="no-items-message">Không có câu hỏi nào được đánh dấu để xem lại.</p>';
                     if (!studyModeToggle.checked) {
                         checkAnswerBtn.disabled = true;
                         checkAnswerBtn.classList.remove('hidden');
@@ -2403,10 +2512,10 @@
         prevBtn.addEventListener('click', () => navigate('prev'));
         nextBtn.addEventListener('click', () => navigate('next'));
         checkAnswerBtn.addEventListener('click', checkAnswer);
-        markForReviewBtn.addEventListener('click', toggleMarkForReview); // New event listener
+        markForReviewBtn.addEventListener('click', toggleMarkForReview);
 
         shuffleAnswersToggle.addEventListener('change', displayQuestion);
-        shuffleQuestionsOrderToggle.addEventListener('change', resetQuiz); // Reset quiz to apply new question order
+        shuffleQuestionsOrderToggle.addEventListener('change', resetQuiz);
         studyModeToggle.addEventListener('change', () => {
             updateNavigationButtons();
             displayQuestion();
@@ -2418,7 +2527,7 @@
         startTimerBtn.addEventListener('click', startTimer);
         pauseTimerBtn.addEventListener('click', pauseTimer);
         resetTimerBtn.addEventListener('click', resetTimer);
-        timeLimitInput.addEventListener('change', resetTimer); // Reset timer if time limit changes
+        timeLimitInput.addEventListener('change', resetTimer);
 
         // Keyboard Navigation
         document.addEventListener('keydown', (e) => {
@@ -2426,7 +2535,8 @@
                 return;
             }
 
-            const currentQuestionState = questionStates[currentQuizOrder[currentQuestionIndex]];
+            const originalQuestionIndex = currentQuizOrder[currentQuestionIndex];
+            const currentQuestionState = questionStates[originalQuestionIndex];
             const hasBeenChecked = currentQuestionState.status !== 'unanswered';
             const hasAnswered = currentQuestionState.userAnswer !== null;
 
@@ -2469,7 +2579,7 @@
                         checkAnswer();
                     } else if (!studyModeToggle.checked && !checkAnswerBtn.disabled) {
                         checkAnswer();
-                    } else if (nextBtn.disabled === false && hasBeenChecked) { // If checked and can go next
+                    } else if (nextBtn.disabled === false && (hasBeenChecked || isTimerFinished())) { // If checked/timer finished and can go next
                         navigate('next');
                     }
                     break;
@@ -2477,9 +2587,9 @@
         });
 
 
-        // Khởi tạo bài thi khi tải trang
+        // Initialize quiz on page load
         window.onload = () => {
-            initializeQuizOrder(); // Khởi tạo thứ tự câu hỏi ban đầu
+            initializeQuizOrder(); // Initialize question order
             createQuestionNavigation();
             resetTimer(); // Initialize timer
             displayQuestion();
@@ -2488,3 +2598,4 @@
     </script>
 </body>
 </html>
+
